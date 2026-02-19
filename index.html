@@ -37,7 +37,7 @@ body{
     height:2.5vw;
     background:#ff7700;
     box-shadow:0 0 5vw #ff3300;
-    transform-origin:left center;
+    transform-origin:center center;
     border-radius:1vw;
 }
 
@@ -168,7 +168,7 @@ function showArrow(pos){
     el.className="arrow";
     el.style.left=pos.x;
     el.style.top=pos.y;
-    el.style.transform=`rotate(${pos.angle}deg)`;
+    el.style.transform = `translate(-50%, -50%) rotate(${pos.angle}deg)`;
     arena.appendChild(el);
 }
 
@@ -179,7 +179,7 @@ async function startSeries(){
     initAudio();
     await audioCtx.resume();
 
-    startBtn.classList.add("hidden");
+    startBtn.style.display = "none";
 
     const steps=Math.floor(randomBetween(10,16));
 
@@ -213,7 +213,7 @@ async function startSeries(){
     clearArena();
     document.getElementById("status").innerText="";
     running=false;
-    startBtn.classList.remove("hidden");
+    startBtn.style.display = "block";
 }
 
 startBtn.addEventListener("click",startSeries);
