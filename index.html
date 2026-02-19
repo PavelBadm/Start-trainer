@@ -70,17 +70,6 @@ body{
     border-bottom:3vw solid transparent;
 }
 
-.centerHit{
-    position:absolute;
-    width:12vw;
-    height:12vw;
-    background:red;
-    border-radius:50%;
-    box-shadow:0 0 6vw red;
-    left:39vw;
-    top:39vw;
-}
-
 button{
     padding:4vw 8vw;
     font-size:6vw;
@@ -200,6 +189,51 @@ function showArrow(pos){
     arena.appendChild(el);
 }
 
+function generateRound(steps){
+
+    const base = positions.slice(0,6); // без "в тебя"
+    let round = shuffle(base);
+
+    while(round.length < steps){
+
+        const last = round[round.length-1];
+
+        let next;
+
+        if(Math.random() < 0.5){
+            // повтор
+            next = last;
+        } else {
+            // противоположное направление
+            next = getOpposite(last);
+        }
+
+        round.push(next);
+    }
+
+    return shuffle(round);
+}
+
+function shuffle(arr){
+    return arr.sort(() => Math.random() - 0.5);
+}
+
+function getOpposite(pos){
+
+    const oppositeMap = {
+        0:180,
+        180:0,
+        45:225,
+        225:45,
+        135:315,
+        315:135
+    };
+
+    const angle = oppositeMap[pos.angle];
+
+    return positions.find(p => p.angle === angle);
+}
+
 
 async function startSeries(){
     if(running) return;
@@ -211,35 +245,31 @@ async function startSeries(){
     startBtn.style.display = "none";
 
     const steps=Math.floor(randomBetween(10,16));
+	const round = generateRound(steps);
 
-    for(let i=0;i<steps;i++){
+	for(let i=0;i<round.length;i++){
+	
+    	clearArena();
+    	document.getElementById("status").innerText="";
 
-        clearArena();
-        document.getElementById("status").innerText="";
+    	await sleep(randomBetween(400,1200));
 
-        await sleep(randomBetween(400,1200));
+    	document.getElementById("status").innerText="SPLIT";
+    	risingSound();
 
-	document.getElementById("status").innerText="SPLIT";
+    	await sleep(600);
+    	await sleep(randomArrowDelay());
 
-	risingSound();
+    	document.getElementById("status").innerText="";
 
-        await sleep(600);
+    	const pos = round[i];
+    	showArrow(pos);
+    	arrowSound();
 
-        await sleep(randomArrowDelay());
+    	await sleep(800);
+    	await sleep(randomBetween(500,800));
+	}
 
-        document.getElementById("status").innerText="";
-
-        const pos=positions[Math.floor(Math.random()*7)];
-        showArrow(pos);
-        arrowSound();
-
-        await sleep(800);
-
-        // восстановление центра
-        await sleep(randomBetween(500,800));
-    }
-
-    clearArena();
     document.getElementById("status").innerText="";
     running=false;
     startBtn.style.display = "block";
