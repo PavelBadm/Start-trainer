@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Start Trainer iPhone</title>
 <style>
 body{
@@ -17,53 +18,54 @@ body{
 }
 
 #status{
-    font-size:42px;
-    height:60px;
+    font-size:8vw;           /* было фиксированное */
+    height:12vh;
     color:#ffaa00;
 }
 
 #arena{
     position:relative;
-    width:520px;
-    height:520px;
+    width:90vw;              /* адаптивная ширина */
+    height:90vw;
+    max-width:600px;
+    max-height:600px;
 }
 
 .arrow{
     position:absolute;
-    width:160px;
-    height:14px;
+    width:28vw;              /* крупнее */
+    height:2.5vw;
     background:#ff7700;
-    box-shadow:0 0 30px #ff3300;
+    box-shadow:0 0 5vw #ff3300;
     transform-origin:left center;
-    border-radius:7px;
+    border-radius:1vw;
 }
 
 .arrow::after{
     content:'';
     position:absolute;
-    right:-24px;
-    top:-18px;
-    border-left:32px solid #ff7700;
-    border-top:22px solid transparent;
-    border-bottom:22px solid transparent;
+    right:-4vw;
+    top:-3vw;
+    border-left:6vw solid #ff7700;
+    border-top:4vw solid transparent;
+    border-bottom:4vw solid transparent;
 }
 
 .centerHit{
     position:absolute;
-    width:70px;
-    height:70px;
+    width:12vw;
+    height:12vw;
     background:red;
     border-radius:50%;
-    box-shadow:0 0 35px red;
-    left:225px;
-    top:225px;
+    box-shadow:0 0 6vw red;
+    left:39vw;
+    top:39vw;
 }
 
-.hidden{ display:none; }
-
 button{
-    padding:18px 36px;
-    font-size:20px;
+    padding:4vw 8vw;
+    font-size:6vw;
+    border-radius:3vw;
 }
 </style>
 </head>
@@ -81,12 +83,12 @@ const arena=document.getElementById("arena");
 const startBtn=document.getElementById("startBtn");
 
 const positions=[
-    {angle:315,x:360,y:90},
-    {angle:0,x:450,y:250},
-    {angle:45,x:360,y:400},
-    {angle:135,x:90,y:400},
-    {angle:180,x:10,y:250},
-    {angle:225,x:90,y:90},
+    {angle:315,x:"65%",y:"10%"},
+    {angle:0,x:"85%",y:"45%"},
+    {angle:45,x:"65%",y:"75%"},
+    {angle:135,x:"10%",y:"75%"},
+    {angle:180,x:"0%",y:"45%"},
+    {angle:225,x:"10%",y:"10%"},
     {center:true}
 ];
 
@@ -164,8 +166,8 @@ function showArrow(pos){
     }
     const el=document.createElement("div");
     el.className="arrow";
-    el.style.left=pos.x+"px";
-    el.style.top=pos.y+"px";
+    el.style.left=pos.x;
+    el.style.top=pos.y;
     el.style.transform=`rotate(${pos.angle}deg)`;
     arena.appendChild(el);
 }
