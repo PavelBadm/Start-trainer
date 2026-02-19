@@ -51,6 +51,25 @@ body{
     border-bottom:4vw solid transparent;
 }
 
+	.arrow-hit{
+    position:absolute;
+    width:10vw;
+    height:3vw;
+    background:red;
+    border-radius:2vw;
+    box-shadow:0 0 6vw red;
+}
+
+.arrow-hit::after{
+    content:'';
+    position:absolute;
+    right:-3vw;
+    top:-2vw;
+    border-left:4vw solid red;
+    border-top:3vw solid transparent;
+    border-bottom:3vw solid transparent;
+}
+
 .centerHit{
     position:absolute;
     width:12vw;
@@ -159,21 +178,28 @@ function clearArena(){
 function showArrow(pos){
     clearArena();
 
-    const el=document.createElement("div");
-    el.className="arrow";
+    const el = document.createElement("div");
 
     if(pos.hit){
-        el.style.width="14vw";          // короткая стрелка
-        el.style.background="red";
-        el.style.boxShadow="0 0 5vw red";
+        el.className = "arrow-hit";
+    } else {
+        el.className = "arrow";
     }
 
-    el.style.left=pos.x;
-    el.style.top=pos.y;
-    el.style.transform=`translate(-50%, -50%) rotate(${pos.angle}deg)`;
+    el.style.left = pos.x;
+    el.style.top = pos.y;
+
+    let transform = `translate(-50%, -50%) rotate(${pos.angle}deg)`;
+
+    if(pos.hit){
+        transform += " scale(0.8)";
+    }
+
+    el.style.transform = transform;
 
     arena.appendChild(el);
 }
+
 
 async function startSeries(){
     if(running) return;
