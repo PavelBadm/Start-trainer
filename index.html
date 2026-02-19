@@ -83,13 +83,13 @@ const arena=document.getElementById("arena");
 const startBtn=document.getElementById("startBtn");
 
 const positions = [
-    {angle:315, x:"80%", y:"20%"},  // вправо-вверх
-    {angle:0,   x:"90%", y:"50%"},  // вправо
-    {angle:45,  x:"80%", y:"80%"},  // вправо-вниз
-    {angle:135, x:"20%", y:"80%"},  // влево-вниз
-    {angle:180, x:"10%", y:"50%"},  // влево
-    {angle:225, x:"20%", y:"20%"},  // влево-вверх
-    {center:true}
+    {angle:315, x:"75%", y:"25%"},  // вправо-вверх
+    {angle:0,   x:"80%", y:"50%"},  // вправо
+    {angle:45,  x:"75%", y:"75%"},  // вправо-вниз
+    {angle:135, x:"25%", y:"75%"},  // влево-вниз
+    {angle:180, x:"20%", y:"50%"},  // влево
+    {angle:225, x:"25%", y:"25%"},  // влево-вверх
+    {angle:90, x:"50%", y:"50%", hit:true}
 ];
 
 function sleep(ms){
@@ -158,17 +158,20 @@ function clearArena(){
 
 function showArrow(pos){
     clearArena();
-    if(pos.center){
-        const hit=document.createElement("div");
-        hit.className="centerHit";
-        arena.appendChild(hit);
-        return;
-    }
+
     const el=document.createElement("div");
     el.className="arrow";
+
+    if(pos.hit){
+        el.style.width="14vw";          // короткая стрелка
+        el.style.background="red";
+        el.style.boxShadow="0 0 5vw red";
+    }
+
     el.style.left=pos.x;
     el.style.top=pos.y;
-    el.style.transform = `translate(-50%, -50%) rotate(${pos.angle}deg)`;
+    el.style.transform=`translate(-50%, -50%) rotate(${pos.angle}deg)`;
+
     arena.appendChild(el);
 }
 
