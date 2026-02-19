@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Start Trainer iPhone</title>
+<style>
+body{
+    margin:0;
+    background:#000;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    height:100vh;
+    font-family:sans-serif;
+    color:white;
+}
+
+#status{
+    font-size:42px;
+    height:60px;
+    color:#ffaa00;
+}
+
+#arena{
+    position:relative;
+    width:520px;
+    height:520px;
+}
+
+.arrow{
+    position:absolute;
+    width:160px;
+    height:14px;
+    background:#ff7700;
+    box-shadow:0 0 30px #ff3300;
+    transform-origin:left center;
+    border-radius:7px;
+}
+
+.arrow::after{
+    content:'';
+    position:absolute;
+    right:-24px;
+    top:-18px;
+    border-left:32px solid #ff7700;
+    border-top:22px solid transparent;
+    border-bottom:22px solid transparent;
+}
+
+.centerHit{
+    position:absolute;
+    width:70px;
+    height:70px;
+    background:red;
+    border-radius:50%;
+    box-shadow:0 0 35px red;
+    left:225px;
+    top:225px;
+}
+
+.hidden{ display:none; }
+
+button{
+    padding:18px 36px;
+    font-size:20px;
+}
+</style>
+</head>
+<body>
+
+<div id="status"></div>
+<div id="arena"></div>
+<button id="startBtn">Start</button>
+
+<script>
+let running=false;
+let audioCtx=null;
+
+const arena=document.getElementById("arena");
+const startBtn=document.getElementById("startBtn");
+
+const positions=[
+    {angle:315,x:360,y:90},
+    {angle:0,x:450,y:250},
+    {angle:45,x:360,y:400},
+    {angle:135,x:90,y:400},
+    {angle:180,x:10,y:250},
+    {angle:225,x:90,y:90},
+    {center:true}
+];
+
+function sleep(ms){
+    return new Promise(r=>setTimeout(r,ms));
+}
+
+function randomBetween(min,max){
+    return min+Math.random()*(max-min);
+}
+
+function randomArrowDelay(){
+    const r=Math.random();
+    if(r<0.80){
+        return randomBetween(50,150);
+    }else if(r<0.97){
+        return randomBetween(150,250);
+    }else{
+        return randomBetween(250,400);
+    }
+}
+
+function initAudio(){
+    if(!audioCtx){
+        audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+    }
+}
+
+function risingSound(){
+    const osc=audioCtx.createOscillator();
+    const gain=audioCtx.createGain();
+
+    osc.type="sine";
+    osc.frequency.setValueAtTime(250,audioCtx.currentTime);
+    osc.frequency.linearRampToValueAtTime(700,audioCtx.currentTime+0.6);
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    gain.gain.setValueAtTime(0.4,audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.6);
+
+    osc.start();
+    osc.stop(audioCtx.currentTime+0.6);
+}
+
+function arrowSound(){
+    const osc=audioCtx.createOscillator();
+    const gain=audioCtx.createGain();
+
+    osc.type="sine";
+    osc.frequency.value=850;
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    gain.gain.setValueAtTime(0.4,audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.12);
+
+    osc.start();
+    osc.stop(audioCtx.currentTime+0.12);
+}
+
+function clearArena(){
+    arena.innerHTML="";
+}
+
+function showArrow(pos){
+    clearArena();
+    if(pos.center){
+        const hit=document.createElement("div");
+        hit.className="centerHit";
+        arena.appendChild(hit);
+        return;
+    }
+    const el=document.createElement("div");
+    el.className="arrow";
+    el.style.left=pos.x+"px";
+    el.style.top=pos.y+"px";
+    el.style.transform=`rotate(${pos.angle}deg)`;
+    arena.appendChild(el);
+}
+
+async function startSeries(){
+    if(running) return;
+    running=true;
+
+    initAudio();
+    await audioCtx.resume();
+
+    startBtn.classList.add("hidden");
+
+    const steps=Math.floor(randomBetween(10,16));
+
+    for(let i=0;i<steps;i++){
+
+        clearArena();
+        document.getElementById("status").innerText="";
+
+        await sleep(randomBetween(400,1200));
+
+	document.getElementById("status").innerText="SPLIT";
+
+	risingSound();
+
+        await sleep(600);
+
+        await sleep(randomArrowDelay());
+
+        document.getElementById("status").innerText="";
+
+        const pos=positions[Math.floor(Math.random()*7)];
+        showArrow(pos);
+        arrowSound();
+
+        await sleep(800);
+
+        // восстановление центра
+        await sleep(randomBetween(500,800));
+    }
+
+    clearArena();
+    document.getElementById("status").innerText="";
+    running=false;
+    startBtn.classList.remove("hidden");
+}
+
+startBtn.addEventListener("click",startSeries);
+</script>
+
+</body>
+</html>
