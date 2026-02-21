@@ -203,6 +203,14 @@ button{
     width:100%;
     font-size:min(5vw,20px);
 }
+details[open] > *:not(summary){
+    animation:fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn{
+    from{ opacity:0; transform:translateY(-3px);}
+    to{ opacity:1; transform:translateY(0);}
+}
 </style>
 </head>
 <body>
@@ -235,7 +243,7 @@ button{
           Ты "зависаешь" в воздухе, не угадывая направление будущего движения.
         </div>
 
-        <details class="method-details">
+        <details class="method-details" open>
           <summary>Как прийти в невесомость</summary>
           <ul>
             <li>резким движением в стороны и чуть вверх выброси кисти рук;</li>
