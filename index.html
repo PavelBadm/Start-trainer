@@ -107,8 +107,41 @@ button{
     width:100%;
     max-width:320px;
 }
+
+.method-card{
+    margin-top:20px;
+    padding:18px 22px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.15);
+    backdrop-filter:blur(6px);
+    box-shadow:0 0 20px rgba(255,120,0,0.08);
+    max-width:540px;
+    font-size:min(3.8vw,16px);
+    line-height:1.4;
+    text-align:left;
+}
+
+.method-section{
+    margin-bottom:16px;
+}
+
+.method-title{
+    font-weight:600;
+    margin-bottom:6px;
+    color:#ffaa55;
+}
+
+.method-text ul{
+    margin:6px 0 6px 18px;
+    padding:0;
+}
+
+.method-text li{
+    margin-bottom:4px;
+}
     
-    #controlPanel{
+#controlPanel{
     display:flex;
     flex-direction:column;
     gap:16px;
@@ -120,6 +153,49 @@ button{
     width:100%;
     font-size:min(5vw,20px);
 }
+<div id="methodBlock" class="method-card">
+  <div class="method-section">
+    <div class="method-title">🔊 Звук — замах соперника</div>
+    <div class="method-text">
+      Приди в состояние <b>невесомости</b>:
+      <ul>
+        <li>разведи кисти в стороны и вверх;</li>
+        <li>подтяни колени через сгиб в тазобедренном;</li>
+        <li>полностью расслабь ноги.</li>
+      </ul>
+      Тело теряет опору. Ты зависаешь, не выбирая сторону.
+    </div>
+  </div>
+
+  <div class="method-section">
+    <div class="method-title">🔔 Стрелка — момент удара</div>
+    <div class="method-text">
+      <b>Если волан летит в сторону:</b>
+      <ul>
+        <li>резко разведи локти в стороны;</li>
+        <li>упруго толкнись противоположной ногой;</li>
+        <li>ближняя нога сразу выносится в сторону удара.</li>
+      </ul>
+
+      Одновременно сориентируй её по глубине:
+      <ul>
+        <li>вперёд — передняя зона;</li>
+        <li>назад — задняя зона;</li>
+        <li>разворот левой — левые пол-поля;</li>
+        <li>правая без изменений — правые пол-поля.</li>
+      </ul>
+
+      Почувствуй, как тело резко нагружает опорную ногу и выстреливает в сторону.
+    </div>
+  </div>
+
+  <div class="method-section">
+    <div class="method-text">
+      <b>Если волан летит в тебя:</b><br>
+      упруго собери центр на две ноги, плечи вперёд и сделай короткий шаг навстречу волану.
+    </div>
+  </div>
+</div>
 </style>
 </head>
 <body>
