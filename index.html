@@ -35,7 +35,7 @@
 }
     
 .menu-btn{
-    padding:4vw 6vw;
+    padding:12px 20px;
     font-size:min(5vw,20px);
     border-radius:3vw;
 }
@@ -48,16 +48,14 @@
 
 #arena{
     position:relative;
-    width:90vw;
-    height:90vw;
-    max-width:600px;
-    max-height:600px;
+    width:min(90vw,600px);
+    height:min(90vw,600px);
 }
-
+    
 .arrow{
     position:absolute;
-    width:28vw;
-    height:2.5vw;
+    width:min(28vw,180px);
+    height:min(2.5vw,16px);
     background:#ff7700;
     box-shadow:0 0 5vw #ff3300;
     transform-origin:center center;
@@ -69,9 +67,9 @@
     position:absolute;
     right:-4vw;
     top:-3vw;
-    border-left:6vw solid #ff7700;
-    border-top:4vw solid transparent;
-    border-bottom:4vw solid transparent;
+    border-left:min(6vw,40px) solid #ff7700;
+    border-top:min(4vw,28px) solid transparent;
+    border-bottom:min(4vw,28px) solid transparent;
 }
 
 .arrow-hit{
@@ -145,13 +143,13 @@ const controlPanel = document.getElementById("controlPanel");
 /* ---- Позиции (визуально те же, углы часовые) ---- */
 
 const positions = [
-    {angle:45,  x:"85%", y:"10%"},   // ППУ
-    {angle:90,  x:"90%", y:"50%"},   // ППП
-    {angle:135, x:"85%", y:"90%"},   // ПЗУ
-    {angle:225, x:"15%", y:"90%"},   // ЛЗУ
-    {angle:270, x:"10%", y:"50%"},   // ЛПП
-    {angle:315, x:"15%", y:"10%"},   // ЛПУ
-    {angle:180, x:"50%", y:"50%", hit:true}// В тебя
+    {angle:45,  x:"80%", y:"15%"},   // ППУ
+    {angle:90,  x:"85%", y:"50%"},   // ППП
+    {angle:135, x:"80%", y:"85%"},   // ПЗУ
+    {angle:225, x:"20%", y:"85%"},   // ЛЗУ
+    {angle:270, x:"15%", y:"50%"},   // ЛПП
+    {angle:315, x:"20%", y:"15%"},   // ЛПУ
+    {angle:180, x:"50%", y:"50%", hit:true}    // В тебя
 ];
 
 function getPos(angle){
