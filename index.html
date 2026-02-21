@@ -54,8 +54,8 @@
 .arrow,
 .arrow-hit{
     position:absolute;
-    width:140px;
-    height:12px;
+    width:min(18vmin,140px);
+    height:min(1.6vmin,12px);
     border-radius:8px;
     transform-origin:center center;
 }
@@ -73,23 +73,23 @@
 .arrow::after{
     content:'';
     position:absolute;
-    right:-20px;
+    right:-14px;
     top:50%;
     transform:translateY(-50%);
-    border-left:24px solid #ff7700;
-    border-top:14px solid transparent;
-    border-bottom:14px solid transparent;
+    border-left:18px solid #ff7700;
+    border-top:10px solid transparent;
+    border-bottom:10px solid transparent;
 }
 
 .arrow-hit::after{
     content:'';
     position:absolute;
-    right:-20px;
+    right:-14px;
     top:50%;
     transform:translateY(-50%);
-    border-left:24px solid #ff4444;
-    border-top:14px solid transparent;
-    border-bottom:14px solid transparent;
+    border-left:18px solid #ff4444;
+    border-top:10px solid transparent;
+    border-bottom:10px solid transparent;
 }
     
 button{
