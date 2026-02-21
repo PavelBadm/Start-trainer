@@ -118,7 +118,7 @@ button{
 <div id="arena" style="display:none"></div>
 <div id="controlPanel" style="display:none">
     <button id="startBtn">Старт</button>
-    <button id="backBtn">К режимам</button>
+    <button id="backBtn">Режимы</button>
 </div>    
 <script>
 let running=false;
@@ -323,17 +323,21 @@ async function startSeries(){
     for(let i=0;i<round.length;i++){
 
         clearArena();
-        status.innerText="";
+        status.innerHTML="";
 
         await sleep(randomBetween(400,1200));
 
-        status.innerText="SPLIT";
+        status.innerHTML = `
+          <div style="font-size:7vw;">Лёгкость</div>
+          <div style="font-size:3.5vw; opacity:0.7;">
+             Локти вверх — ноги свободны
+          </div>
+        `;
         risingSound();
 
-        await sleep(600);
-        await sleep(randomBetween(50,150));
-
-        status.innerText="";
+        await sleep(600 + randomBetween(50,150));
+        
+        status.innerHTML="";
 
         const pos=getPos(round[i]);
         showArrow(pos);
@@ -344,7 +348,7 @@ async function startSeries(){
     }
 
     clearArena();
-    status.innerText="";
+    status.innerHTML="";
     running=false;
     controlPanel.style.display="flex";
 }
@@ -365,7 +369,7 @@ startBtn.addEventListener("click",startSeries);
 
 backBtn.addEventListener("click", ()=>{
     clearArena();
-    status.innerText="";
+    status.innerHTML="";
     arena.style.display="none";
     status.style.display="none";
     controlPanel.style.display="none";
