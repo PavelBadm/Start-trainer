@@ -175,7 +175,7 @@ function showArrow(pos){
     el.className = pos.hit ? "arrow-hit" : "arrow";
     el.style.left=pos.x;
     el.style.top=pos.y;
-    let transform=`translate(-50%, -50%) rotate(${pos.angle}deg)`;
+    let transform=`translate(-50%, -50%) rotate(${pos.angle - 90}deg)`;
     if(pos.hit) transform+=" scale(0.8)";
     el.style.transform=transform;
     arena.appendChild(el);
