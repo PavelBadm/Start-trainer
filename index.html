@@ -56,16 +56,18 @@
     position:absolute;
     width:min(18vmin,140px);
     height:min(1.6vmin,12px);
-    border-radius:8px;
+    border-radius:999px;
     transform-origin:center center;
+    font-size:min(1.8vmin,14px);
 }
-
+    
 .arrow{
     background:#ff7700;
     box-shadow:0 0 15px rgba(255,100,0,0.6);
 }
 
 .arrow-hit{
+    width:min(10vmin,70px);
     background:#ff4444;
     box-shadow:0 0 15px rgba(255,0,0,0.6);
 }
@@ -79,6 +81,7 @@
     border-left:18px solid #ff7700;
     border-top:10px solid transparent;
     border-bottom:10px solid transparent;
+    filter:drop-shadow(0 0 2px rgba(0,0,0,0.3));
 }
 
 .arrow-hit::after{
@@ -90,6 +93,7 @@
     border-left:18px solid #ff4444;
     border-top:10px solid transparent;
     border-bottom:10px solid transparent;
+    filter:drop-shadow(0 0 2px rgba(0,0,0,0.3));
 }
     
 button{
