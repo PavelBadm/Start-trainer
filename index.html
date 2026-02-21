@@ -6,17 +6,16 @@
 <title>Start Trainer</title>
 <style>    
     body{
-    margin:0;
-    background:#000;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    min-height:100dvh;
-    font-family:sans-serif;
-    color:white;
+        margin:0;
+        background:#000;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        height:100dvh;
+        font-family:sans-serif;
+        color:white;
 }
-
 /* ограничение ширины контента */
 #menu,
 #arena,
@@ -48,16 +47,16 @@
 
 #arena{
     position:relative;
-    width:min(90vw,600px);
-    height:min(90vw,600px);
+    width:min(85vw,520px);
+    height:min(85vw,520px);
 }
     
 .arrow{
     position:absolute;
-    width:min(28vw,180px);
-    height:min(2.5vw,16px);
+    width:min(22vw,140px);
+    height:min(2vw,12px);
     background:#ff7700;
-    box-shadow:0 0 20px #ff3300;
+    box-shadow:0 0 15px #ff3300;
     transform-origin:center center;
     border-radius:8px;
 }
@@ -65,12 +64,12 @@
 .arrow::after{
     content:'';
     position:absolute;
-    right:-18px;
+    right:-16px;
     top:50%;
     transform:translateY(-50%);
-    border-left:28px solid #ff7700;
-    border-top:18px solid transparent;
-    border-bottom:18px solid transparent;
+    border-left:22px solid #ff7700;
+    border-top:14px solid transparent;
+    border-bottom:14px solid transparent;
 }
     
 .arrow-hit{
@@ -93,12 +92,13 @@
 }
 
 button{
-    padding:14px 24px;
+    padding:14px 28px;
     font-size:min(5vw,20px);
-    border-radius:12px;
-    border:none;
-    background:#222;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,0.3);
+    background:rgba(255,255,255,0.05);
     color:white;
+    backdrop-filter:blur(4px);
     width:100%;
     max-width:300px;
 }
@@ -149,12 +149,12 @@ const controlPanel = document.getElementById("controlPanel");
 /* ---- Позиции (визуально те же, углы часовые) ---- */
 
 const positions = [
-    {angle:45,  x:"85%", y:"8%"},    // ППУ
-    {angle:90,  x:"92%", y:"50%"},   // ППП
-    {angle:135, x:"85%", y:"92%"},   // ПЗУ
-    {angle:225, x:"15%", y:"92%"},   // ЛЗУ
-    {angle:270, x:"8%",  y:"50%"},   // ЛПП
-    {angle:315, x:"15%", y:"8%"},    // ЛПУ
+    {angle:45,  x:"78%", y:"12%"},   // ППУ
+    {angle:90,  x:"88%", y:"50%"},   // ППП
+    {angle:135, x:"78%", y:"88%"},   // ПЗУ
+    {angle:225, x:"22%", y:"88%"},   // ЛЗУ
+    {angle:270, x:"12%", y:"50%"},   // ЛПП
+    {angle:315, x:"22%", y:"12%"},   // ЛПУ
     {angle:180, x:"50%", y:"50%", hit:true}    // В тебя
 ];
 
