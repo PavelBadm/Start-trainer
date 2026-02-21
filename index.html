@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Start Trainer iPhone</title>
+<title>Start Trainer</title>
 <style>
 body{
     margin:0;
@@ -17,15 +17,28 @@ body{
     color:white;
 }
 
+#menu{
+    display:flex;
+    flex-direction:column;
+    gap:3vw;
+    align-items:center;
+}
+
+.menu-btn{
+    padding:4vw 6vw;
+    font-size:5vw;
+    border-radius:3vw;
+}
+
 #status{
-    font-size:8vw;           /* было фиксированное */
+    font-size:8vw;
     height:12vh;
     color:#ffaa00;
 }
 
 #arena{
     position:relative;
-    width:90vw;              /* адаптивная ширина */
+    width:90vw;
     height:90vw;
     max-width:600px;
     max-height:600px;
@@ -33,7 +46,7 @@ body{
 
 .arrow{
     position:absolute;
-    width:28vw;              /* крупнее */
+    width:28vw;
     height:2.5vw;
     background:#ff7700;
     box-shadow:0 0 5vw #ff3300;
@@ -51,7 +64,7 @@ body{
     border-bottom:4vw solid transparent;
 }
 
-	.arrow-hit{
+.arrow-hit{
     position:absolute;
     width:10vw;
     height:3vw;
@@ -79,45 +92,47 @@ button{
 </head>
 <body>
 
-<div id="status"></div>
-<div id="arena"></div>
-<button id="startBtn">Start</button>
+<div id="menu">
+    <button class="menu-btn" data-mode="main">Основной</button>
+    <button class="menu-btn" data-mode="defense">Защита от смеша</button>
+    <button class="menu-btn" data-mode="diag1">Диагональ (ЛЗ – ПП)</button>
+    <button class="menu-btn" data-mode="diag2">Диагональ (ПЗ – ЛП)</button>
+    <button class="menu-btn" data-mode="front">Передняя зона</button>
+    <button class="menu-btn" data-mode="back">Задняя зона</button>
+</div>
+
+<div id="status" style="display:none"></div>
+<div id="arena" style="display:none"></div>
+<button id="startBtn" style="display:none">Start</button>
 
 <script>
 let running=false;
 let audioCtx=null;
+let currentMode=null;
 
 const arena=document.getElementById("arena");
 const startBtn=document.getElementById("startBtn");
+const menu=document.getElementById("menu");
+const status=document.getElementById("status");
+
+/* ---- Позиции (визуально те же, углы часовые) ---- */
 
 const positions = [
-    {angle:315, x:"75%", y:"25%"},  // вправо-вверх
-    {angle:0,   x:"80%", y:"50%"},  // вправо
-    {angle:45,  x:"75%", y:"75%"},  // вправо-вниз
-    {angle:135, x:"25%", y:"75%"},  // влево-вниз
-    {angle:180, x:"20%", y:"50%"},  // влево
-    {angle:225, x:"25%", y:"25%"},  // влево-вверх
-    {angle:90, x:"50%", y:"50%", hit:true}
+    {angle:45,  x:"75%", y:"25%"},  // ППУ
+    {angle:90,  x:"80%", y:"50%"},  // ППП
+    {angle:135, x:"75%", y:"75%"},  // ПЗУ
+    {angle:225, x:"25%", y:"75%"},  // ЛЗУ
+    {angle:270, x:"20%", y:"50%"},  // ЛПП
+    {angle:315, x:"25%", y:"25%"},  // ЛПУ
+    {angle:180, x:"50%", y:"50%", hit:true} // В тебя
 ];
 
-function sleep(ms){
-    return new Promise(r=>setTimeout(r,ms));
+function getPos(angle){
+    return positions.find(p=>p.angle===angle);
 }
 
-function randomBetween(min,max){
-    return min+Math.random()*(max-min);
-}
-
-function randomArrowDelay(){
-    const r=Math.random();
-    if(r<0.80){
-        return randomBetween(50,150);
-    }else if(r<0.97){
-        return randomBetween(150,250);
-    }else{
-        return randomBetween(250,400);
-    }
-}
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+function randomBetween(min,max){ return min+Math.random()*(max-min); }
 
 function initAudio(){
     if(!audioCtx){
@@ -128,17 +143,13 @@ function initAudio(){
 function risingSound(){
     const osc=audioCtx.createOscillator();
     const gain=audioCtx.createGain();
-
     osc.type="sine";
     osc.frequency.setValueAtTime(250,audioCtx.currentTime);
     osc.frequency.linearRampToValueAtTime(700,audioCtx.currentTime+0.6);
-
     osc.connect(gain);
     gain.connect(audioCtx.destination);
-
     gain.gain.setValueAtTime(0.4,audioCtx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.6);
-
     osc.start();
     osc.stop(audioCtx.currentTime+0.6);
 }
@@ -146,134 +157,153 @@ function risingSound(){
 function arrowSound(){
     const osc=audioCtx.createOscillator();
     const gain=audioCtx.createGain();
-
     osc.type="sine";
     osc.frequency.value=850;
-
     osc.connect(gain);
     gain.connect(audioCtx.destination);
-
     gain.gain.setValueAtTime(0.4,audioCtx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.12);
-
     osc.start();
     osc.stop(audioCtx.currentTime+0.12);
 }
 
-function clearArena(){
-    arena.innerHTML="";
-}
+function clearArena(){ arena.innerHTML=""; }
 
 function showArrow(pos){
     clearArena();
-
-    const el = document.createElement("div");
-
-    if(pos.hit){
-        el.className = "arrow-hit";
-    } else {
-        el.className = "arrow";
-    }
-
-    el.style.left = pos.x;
-    el.style.top = pos.y;
-
-    let transform = `translate(-50%, -50%) rotate(${pos.angle}deg)`;
-
-    if(pos.hit){
-        transform += " scale(0.8)";
-    }
-
-    el.style.transform = transform;
-
+    const el=document.createElement("div");
+    el.className = pos.hit ? "arrow-hit" : "arrow";
+    el.style.left=pos.x;
+    el.style.top=pos.y;
+    let transform=`translate(-50%, -50%) rotate(${pos.angle}deg)`;
+    if(pos.hit) transform+=" scale(0.8)";
+    el.style.transform=transform;
     arena.appendChild(el);
 }
 
-function generateRound(steps){
+/* --------- Режимы --------- */
 
-    const base = positions.slice(0,6); // без "в тебя"
-    let round = shuffle(base);
+const modes={
+    main:{ type:"static", angles:[45,90,135,225,270,315] },
+    defense:{ type:"static", angles:[90,270] },
+    front:{ type:"static", angles:[45,315] },
+    back:{ type:"static", angles:[135,225] },
+    diag1:{ type:"diagonal", back:225, front:45 },  // ЛЗ – ПП
+    diag2:{ type:"diagonal", back:135, front:315 }  // ПЗ – ЛП
+};
 
-    while(round.length < steps){
+/* --------- Генерация --------- */
 
-        const last = round[round.length-1];
+function generateRound(modeKey, steps){
 
-        let next;
+    const mode=modes[modeKey];
+    let round=[];
+    let prev=null;
 
-        if(Math.random() < 0.5){
-            // повтор
-            next = last;
-        } else {
-            // противоположное направление
-            next = getOpposite(last);
+    if(mode.type==="static"){
+        prev = mode.angles[Math.floor(Math.random()*mode.angles.length)];
+        round.push(prev);
+
+        for(let i=1;i<steps;i++){
+            let next;
+
+            if(Math.random()<0.35){
+                next=prev; // повтор
+            }else{
+                next=mode.angles[Math.floor(Math.random()*mode.angles.length)];
+            }
+
+            round.push(next);
+            prev=next;
         }
-
-        round.push(next);
     }
 
-    return shuffle(round);
+    if(mode.type==="diagonal"){
+        prev = mode.back;
+        round.push(prev);
+
+        for(let i=1;i<steps;i++){
+            let next;
+
+            if(prev===mode.back){
+                const r=Math.random();
+                if(r<0.4) next=mode.back;               // повтор задней
+                else if(r<0.75) next=mode.front;        // диагональ
+                else next=[90,270][Math.floor(Math.random()*2)]; // обрыв
+            }else{
+                const r=Math.random();
+                if(r<0.55) next=mode.back;
+                else if(r<0.8) next=mode.front;
+                else next=[90,270][Math.floor(Math.random()*2)];
+            }
+
+            round.push(next);
+            prev=next;
+        }
+    }
+
+    /* --- гарантированный "в тебя" --- */
+
+    const hitIndex = Math.floor(randomBetween(2,steps-2));
+    round[hitIndex]=180;
+
+    return round;
 }
 
-function shuffle(arr){
-    return arr.sort(() => Math.random() - 0.5);
-}
-
-function getOpposite(pos){
-
-    const oppositeMap = {
-        0:180,
-        180:0,
-        45:225,
-        225:45,
-        135:315,
-        315:135
-    };
-
-    const angle = oppositeMap[pos.angle];
-
-    return positions.find(p => p.angle === angle);
-}
-
+/* --------- Серия --------- */
 
 async function startSeries(){
+
     if(running) return;
     running=true;
 
     initAudio();
     await audioCtx.resume();
 
-    startBtn.style.display = "none";
+    startBtn.style.display="none";
 
-    const steps=Math.floor(randomBetween(10,16));
-	const round = generateRound(steps);
+    const steps=Math.floor(randomBetween(10,15));
+    const round=generateRound(currentMode,steps);
 
-	for(let i=0;i<round.length;i++){
-	
-    	clearArena();
-    	document.getElementById("status").innerText="";
+    for(let i=0;i<round.length;i++){
 
-    	await sleep(randomBetween(400,1200));
+        clearArena();
+        status.innerText="";
 
-    	document.getElementById("status").innerText="SPLIT";
-    	risingSound();
+        await sleep(randomBetween(400,1200));
 
-    	await sleep(600);
-    	await sleep(randomArrowDelay());
+        status.innerText="SPLIT";
+        risingSound();
 
-    	document.getElementById("status").innerText="";
+        await sleep(600);
+        await sleep(randomBetween(50,150));
 
-    	const pos = round[i];
-    	showArrow(pos);
-    	arrowSound();
+        status.innerText="";
 
-    	await sleep(800);
-    	await sleep(randomBetween(500,800));
-	}
+        const pos=getPos(round[i]);
+        showArrow(pos);
+        arrowSound();
 
-    document.getElementById("status").innerText="";
+        await sleep(800);
+        await sleep(randomBetween(500,800));
+    }
+
+    status.innerText="";
     running=false;
-    startBtn.style.display = "block";
+    startBtn.style.display="block";
 }
+
+/* --------- Меню --------- */
+
+document.querySelectorAll(".menu-btn").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+        currentMode=btn.dataset.mode;
+        menu.style.display="none";
+        arena.style.display="block";
+        status.style.display="block";
+        startBtn.style.display="block";
+    });
+});
 
 startBtn.addEventListener("click",startSeries);
 </script>
