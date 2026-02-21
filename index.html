@@ -147,55 +147,14 @@ button{
     gap:16px;
     align-items:center;
     margin-top:20px;
+    max-height:80vh;
+    overflow:auto;
 }
-
+    
 #controlPanel button{
     width:100%;
     font-size:min(5vw,20px);
 }
-<div id="methodBlock" class="method-card">
-  <div class="method-section">
-    <div class="method-title">🔊 Звук — замах соперника</div>
-    <div class="method-text">
-      Приди в состояние <b>невесомости</b>:
-      <ul>
-        <li>разведи кисти в стороны и вверх;</li>
-        <li>подтяни колени через сгиб в тазобедренном;</li>
-        <li>полностью расслабь ноги.</li>
-      </ul>
-      Тело теряет опору. Ты зависаешь, не выбирая сторону.
-    </div>
-  </div>
-
-  <div class="method-section">
-    <div class="method-title">🔔 Стрелка — момент удара</div>
-    <div class="method-text">
-      <b>Если волан летит в сторону:</b>
-      <ul>
-        <li>резко разведи локти в стороны;</li>
-        <li>упруго толкнись противоположной ногой;</li>
-        <li>ближняя нога сразу выносится в сторону удара.</li>
-      </ul>
-
-      Одновременно сориентируй её по глубине:
-      <ul>
-        <li>вперёд — передняя зона;</li>
-        <li>назад — задняя зона;</li>
-        <li>разворот левой — левые пол-поля;</li>
-        <li>правая без изменений — правые пол-поля.</li>
-      </ul>
-
-      Почувствуй, как тело резко нагружает опорную ногу и выстреливает в сторону.
-    </div>
-  </div>
-
-  <div class="method-section">
-    <div class="method-text">
-      <b>Если волан летит в тебя:</b><br>
-      упруго собери центр на две ноги, плечи вперёд и сделай короткий шаг навстречу волану.
-    </div>
-  </div>
-</div>
 </style>
 </head>
 <body>
@@ -214,7 +173,51 @@ button{
 <div id="controlPanel" style="display:none">
     <button id="startBtn">Старт</button>
     <button id="backBtn">Режимы</button>
+    <div id="methodBlock" class="method-card">
+      <div class="method-section">
+        <div class="method-title">🔊 Звук — замах соперника</div>
+        <div class="method-text">
+          Приди в состояние <b>невесомости</b>:
+          <ul>
+            <li>разведи кисти в стороны и вверх;</li>
+            <li>подтяни колени через сгиб в тазобедренном;</li>
+            <li>полностью расслабь ноги.</li>
+          </ul>
+          Тело теряет опору. Ты зависаешь, не выбирая сторону.
+        </div>
+      </div>
+
+      <div class="method-section">
+        <div class="method-title">🔔 Стрелка — момент удара</div>
+        <div class="method-text">
+          <b>Если волан летит в сторону:</b>
+          <ul>
+            <li>резко разведи локти в стороны;</li>
+            <li>упруго толкнись противоположной ногой;</li>
+            <li>ближняя нога сразу выносится в сторону удара.</li>
+          </ul>
+
+          Одновременно сориентируй её по глубине:
+          <ul>
+            <li>вперёд — передняя зона;</li>
+            <li>назад — задняя зона;</li>
+            <li>разворот левой — левые пол-поля;</li>
+            <li>правая без изменений — правые пол-поля.</li>
+          </ul>
+
+          Почувствуй, как тело резко нагружает опорную ногу и выстреливает в сторону.
+        </div>
+      </div>
+
+      <div class="method-section">
+        <div class="method-text">
+          <b>Если волан летит в тебя:</b><br>
+          упруго собери центр на две ноги, плечи вперёд и сделай короткий шаг навстречу волану.
+        </div>
+      </div>
+    </div>
 </div>    
+    
 <script>
 let running=false;
 let audioCtx=null;
