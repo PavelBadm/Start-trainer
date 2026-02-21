@@ -4,19 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Start Trainer</title>
-<style>    
-    body{
-        margin:0;
-        background:#000;
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-        justify-content:center;
-        height:100dvh;
-        font-family:sans-serif;
-        color:white;
+
+<style>
+body{
+    margin:0;
+    background:#000;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    height:100dvh;
+    font-family:sans-serif;
+    color:white;
 }
-/* ограничение ширины контента */
+
+/* Ограничение ширины */
 #menu,
 #arena,
 #status,
@@ -24,7 +26,9 @@
     width:100%;
     max-width:600px;
 }
-    
+
+/* ===== Главное меню ===== */
+
 #menu{
     display:flex;
     flex-direction:column;
@@ -32,12 +36,22 @@
     justify-content:center;
     align-items:center;
 }
-    
+
+.app-title{
+    font-size:min(8vw,32px);
+    font-weight:600;
+    margin-bottom:4vh;
+    letter-spacing:1px;
+    text-shadow:0 0 20px rgba(255,120,0,0.4);
+}
+
 .menu-btn{
     padding:12px 20px;
     font-size:min(5vw,20px);
     border-radius:3vw;
 }
+
+/* ===== Статус ===== */
 
 #status{
     font-size:8vw;
@@ -45,12 +59,24 @@
     color:#ffaa00;
 }
 
+/* ===== Арена ===== */
+
 #arena{
     position:relative;
     width:min(85vmin,600px);
     height:min(85vmin,600px);
 }
-    
+
+.mode-label{
+    position:absolute;
+    top:10px;
+    left:10px;
+    font-size:min(3.5vw,14px);
+    opacity:0.6;
+}
+
+/* ===== Стрелки ===== */
+
 .arrow,
 .arrow-hit{
     position:absolute;
@@ -58,9 +84,8 @@
     height:min(1.6vmin,12px);
     border-radius:999px;
     transform-origin:center center;
-    font-size:min(1.8vmin,14px);
 }
-    
+
 .arrow{
     background:#ff7700;
     box-shadow:0 0 15px rgba(255,100,0,0.6);
@@ -71,7 +96,7 @@
     background:#ff4444;
     box-shadow:0 0 15px rgba(255,0,0,0.6);
 }
-    
+
 .arrow::after{
     content:'';
     position:absolute;
@@ -81,7 +106,6 @@
     border-left:18px solid #ff7700;
     border-top:10px solid transparent;
     border-bottom:10px solid transparent;
-    filter:drop-shadow(0 0 2px rgba(0,0,0,0.3));
 }
 
 .arrow-hit::after{
@@ -93,9 +117,10 @@
     border-left:18px solid #ff4444;
     border-top:10px solid transparent;
     border-bottom:10px solid transparent;
-    filter:drop-shadow(0 0 2px rgba(0,0,0,0.3));
 }
-    
+
+/* ===== Кнопки ===== */
+
 button{
     padding:14px 28px;
     font-size:min(5vw,20px);
@@ -108,20 +133,32 @@ button{
     max-width:320px;
 }
 
+/* ===== Панель ===== */
+
+#controlPanel{
+    display:none;
+    flex-direction:column;
+    gap:20px;
+    align-items:center;
+    margin-top:20px;
+}
+
 .control-buttons{
     display:flex;
     flex-direction:column;
     gap:16px;
     align-items:center;
-    position:sticky;
-    top:0;
-    background:rgba(0,0,0,0.6);
-    padding-bottom:10px;
-    z-index:5;
+}
+
+/* ===== Методика ===== */
+
+.method-header{
+    font-size:min(5vw,18px);
+    color:#ffaa55;
+    margin-bottom:4px;
 }
 
 .method-card{
-    margin-top:20px;
     padding:18px 22px;
     border-radius:20px;
     background:rgba(255,255,255,0.06);
@@ -134,7 +171,6 @@ button{
     text-align:left;
     max-height:50vh;
     overflow:auto;
-    margin-bottom:20px;
 }
 
 .method-section{
@@ -147,91 +183,45 @@ button{
     color:#ffaa55;
 }
 
-.method-text ul{
-    margin:6px 0 6px 18px;
-    padding:0;
-}
-
-.method-text li{
-    margin-bottom:4px;
-}
-
-    .method-main{
-    margin-bottom:8px;
-}
-
-.method-details summary,
-.method-subdetails summary{
+details summary{
     cursor:pointer;
     color:#ffaa55;
     margin:6px 0;
     font-weight:500;
 }
 
-.method-details[open] summary,
-.method-subdetails[open] summary{
-    color:#ffcc88;
-}
-
-.method-details ul,
-.method-subdetails ul{
+details ul{
     margin:6px 0 10px 18px;
-}
-
-.method-subdetails{
-    margin-top:6px;
-    padding-left:6px;
-    border-left:1px solid rgba(255,255,255,0.15);
-}
- 
-.mode-title{
-    font-size:min(6vw,22px);
-    margin-bottom:10px;
-    color:#ffaa55;
-    font-weight:600;
-}
-    
-#controlPanel{
-    display:flex;
-    flex-direction:column;
-    gap:20px;
-    align-items:center;
-    margin-top:20px;
-}
-    
-#controlPanel button{
-    width:100%;
-    font-size:min(5vw,20px);
-}
-details[open] > *:not(summary){
-    animation:fadeIn 0.2s ease;
-}
-
-@keyframes fadeIn{
-    from{ opacity:0; transform:translateY(-3px);}
-    to{ opacity:1; transform:translateY(0);}
 }
 </style>
 </head>
+
 <body>
 
 <div id="menu">
+    <div class="app-title">Start Trainer</div>
     <button class="menu-btn" data-mode="main">Основной</button>
     <button class="menu-btn" data-mode="defense">Защита от смеша</button>
-    <button class="menu-btn" data-mode="diag1">Диагональ (ЛЗ – ПП)</button>
-    <button class="menu-btn" data-mode="diag2">Диагональ (ПЗ – ЛП)</button>
+    <button class="menu-btn" data-mode="diag1">Диагональ (ЛЗ–ПП)</button>
+    <button class="menu-btn" data-mode="diag2">Диагональ (ПЗ–ЛП)</button>
     <button class="menu-btn" data-mode="front">Передняя зона</button>
     <button class="menu-btn" data-mode="back">Задняя зона</button>
 </div>
 
 <div id="status" style="display:none"></div>
-<div id="arena" style="display:none"></div>
-<div id="controlPanel" style="display:none;">
-    <div id="modeTitle" class="mode-title"></div>
+
+<div id="arena" style="display:none">
+    <div id="modeLabel" class="mode-label"></div>
+</div>
+
+<div id="controlPanel">
+
     <div class="control-buttons">
         <button id="startBtn">Старт</button>
         <button id="backBtn">Режимы</button>
-    </div>    
+    </div>
+
+    <div class="method-header">Как выполнять упражнение</div>
     <div id="methodBlock" class="method-card">
 
       <!-- Фаза 1 -->
@@ -239,8 +229,8 @@ details[open] > *:not(summary){
         <div class="method-title">🔊 Нарастающий звук — замах соперника</div>
 
         <div class="method-main">
-          Цель - <b>состояние невесомости</b>.
-          Ты "зависаешь" в воздухе, не угадывая направление будущего движения.
+          Цель — <b>состояние невесомости</b>.
+          Ты «зависаешь» в воздухе, не угадывая направление будущего движения.
         </div>
 
         <details class="method-details" open>
@@ -258,8 +248,8 @@ details[open] > *:not(summary){
         <div class="method-title">🔔 Короткий звук и стрелка — момент удара</div>
 
         <div class="method-main">
-          Если волан летит в сторону, цель - <b>загрузить нужную ногу</b>.
-          Почувствуй, как тело резко нагружает противоположную от точки удара ногу 
+          Если волан летит в сторону, цель — <b>загрузить нужную ногу</b>.
+          Почувствуй, как тело резко нагружает противоположную от точки удара ногу
           и выстреливает в нужную сторону.
         </div>
 
@@ -293,15 +283,15 @@ details[open] > *:not(summary){
         <details class="method-details">
           <summary>Как выполнить движение</summary>
           <ul>
-            <li>упруго приземлись на две ноги (как вариант, одна нога чуть впереди другой);</li>
+            <li>упруго приземлись на две ноги (как вариант — одна нога чуть впереди другой);</li>
             <li>упрись ногами и подайся корпусом вперёд;</li>
             <li>при необходимости сделай короткий шаг навстречу волану.</li>
           </ul>
         </details>
-        </div>
-    </div>    
+      </div>
+    </div>
 </div>
-    
+
 <script>
 let running=false;
 let audioCtx=null;
@@ -309,33 +299,29 @@ let currentMode=null;
 
 const arena=document.getElementById("arena");
 const startBtn=document.getElementById("startBtn");
-const backBtn = document.getElementById("backBtn");
+const backBtn=document.getElementById("backBtn");
 const menu=document.getElementById("menu");
 const status=document.getElementById("status");
-const controlPanel = document.getElementById("controlPanel");
+const controlPanel=document.getElementById("controlPanel");
+const modeLabel=document.getElementById("modeLabel");
 
-/* ---- Позиции (визуально те же, углы часовые) ---- */
-
-const positions = [
-    {angle:45,  x:"78%", y:"12%"},   // ППУ
-    {angle:90,  x:"88%", y:"50%"},   // ППП
-    {angle:135, x:"78%", y:"88%"},   // ПЗУ
-    {angle:225, x:"22%", y:"88%"},   // ЛЗУ
-    {angle:270, x:"12%", y:"50%"},   // ЛПП
-    {angle:315, x:"22%", y:"12%"},   // ЛПУ
-    {angle:180, x:"50%", y:"50%", hit:true}    // В тебя
+const positions=[
+    {angle:45,x:"78%",y:"12%"},
+    {angle:90,x:"88%",y:"50%"},
+    {angle:135,x:"78%",y:"88%"},
+    {angle:225,x:"22%",y:"88%"},
+    {angle:270,x:"12%",y:"50%"},
+    {angle:315,x:"22%",y:"12%"},
+    {angle:180,x:"50%",y:"50%",hit:true}
 ];
 
-function getPos(angle){
-    return positions.find(p=>p.angle===angle);
-}
-
-function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
-function randomBetween(min,max){ return min+Math.random()*(max-min); }
+function getPos(angle){return positions.find(p=>p.angle===angle);}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+function randomBetween(min,max){return min+Math.random()*(max-min);}
 
 function initAudio(){
     if(!audioCtx){
-        audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+        audioCtx=new(window.AudioContext||window.webkitAudioContext)();
     }
 }
 
@@ -366,192 +352,30 @@ function arrowSound(){
     osc.stop(audioCtx.currentTime+0.12);
 }
 
-function clearArena(){ arena.innerHTML=""; }
+function clearArena(){arena.innerHTML='<div id="modeLabel" class="mode-label">'+modeLabel.innerText+'</div>';}
 
 function showArrow(pos){
     clearArena();
     const el=document.createElement("div");
-    el.className = pos.hit ? "arrow-hit" : "arrow";
+    el.className=pos.hit?"arrow-hit":"arrow";
     el.style.left=pos.x;
     el.style.top=pos.y;
-    let transform=`translate(-50%, -50%) rotate(${pos.angle - 90}deg)`;
-    el.style.transform=transform;
+    el.style.transform=`translate(-50%,-50%) rotate(${pos.angle-90}deg)`;
     arena.appendChild(el);
 }
 
-/* --------- Режимы --------- */
-
-const modes={
-    main:{ type:"static", angles:[45,90,135,225,270,315] },
-    defense:{ type:"static", angles:[90,270] },
-    front:{ type:"static", angles:[45,315] },
-    back:{ type:"static", angles:[135,225] },
-    diag1:{ type:"diagonal", back:225, front:45 },  // ЛЗ – ПП
-    diag2:{ type:"diagonal", back:135, front:315 }  // ПЗ – ЛП
-};
-
-/* --------- Генерация --------- */
-
-function generateRound(modeKey, steps){
-
-    const mode=modes[modeKey];
-    let round=[];
-    let prev=null;
-
-if(mode.type==="static"){
-
-    const angles = mode.angles;
-    prev = angles[Math.floor(Math.random()*angles.length)];
-    round.push(prev);
-
-    let repeatCount = 1;
-
-    for(let i=1;i<steps;i++){
-
-        let next;
-
-        // ---- СПЕЦИАЛЬНАЯ ЛОГИКА ДЛЯ 2 УГЛОВ ----
-        if(angles.length === 2){
-
-            const [a,b] = angles;
-            const repeatProb = 0.32; // можно тонко настраивать
-
-            if(prev === a){
-                if(Math.random() < repeatProb && repeatCount < 3){
-                    next = a;
-                } else {
-                    next = b;
-                }
-            } else {
-                if(Math.random() < repeatProb && repeatCount < 3){
-                    next = b;
-                } else {
-                    next = a;
-                }
-            }
-
-        } 
-        // ---- ДЛЯ 6-УГЛОВЫХ РЕЖИМОВ ----
-        else {
-
-            if(Math.random() < 0.30 && repeatCount < 3){
-                next = prev;
-            } else {
-                const alternatives = angles.filter(a => a !== prev);
-                next = alternatives[Math.floor(Math.random()*alternatives.length)];
-            }
-
-        }
-
-        if(next === prev){
-            repeatCount++;
-        } else {
-            repeatCount = 1;
-        }
-
-        round.push(next);
-        prev = next;
-    }
-}
-
-    if(mode.type==="diagonal"){
-        prev = mode.back;
-        round.push(prev);
-
-        for(let i=1;i<steps;i++){
-            let next;
-
-            if(prev===mode.back){
-                const r=Math.random();
-                if(r<0.4) next=mode.back;               // повтор задней
-                else if(r<0.75) next=mode.front;        // диагональ
-                else next=[90,270][Math.floor(Math.random()*2)]; // обрыв
-            }else{
-                const r=Math.random();
-                if(r<0.55) next=mode.back;
-                else if(r<0.8) next=mode.front;
-                else next=[90,270][Math.floor(Math.random()*2)];
-            }
-
-            round.push(next);
-            prev=next;
-        }
-    }
-
-    /* --- гарантированный "в тебя" --- */
-
-    const hitIndex = Math.floor(randomBetween(2,steps-2));
-    round[hitIndex]=180;
-
-    return round;
-}
-
-/* --------- Серия --------- */
-
-async function startSeries(){
-
-    if(running) return;
-    running=true;
-
-    initAudio();
-    await audioCtx.resume();
-
-    controlPanel.style.display="none";
-    
-    const steps=Math.floor(randomBetween(10,15));
-    const round=generateRound(currentMode,steps);
-
-    for(let i=0;i<round.length;i++){
-
-        clearArena();
-        status.innerHTML="";
-
-        await sleep(randomBetween(400,1200));
-
-        status.innerHTML = `
-          <div style="text-align:center;">
-            <div style="font-size:min(9vw,36px);">Невесомость</div>
-            <div style="font-size:min(4vw,18px); opacity:0.75;">
-              Кисти вверх — ноги свободны
-            </div>
-          </div>
-        `;
-        risingSound();
-
-        await sleep(600 + randomBetween(50,150));
-        
-        status.innerHTML="";
-
-        const pos=getPos(round[i]);
-        showArrow(pos);
-        arrowSound();
-
-        await sleep(800);
-        await sleep(randomBetween(500,800));
-    }
-
-    clearArena();
-    status.innerHTML="";
-    running=false;
-    controlPanel.style.display="flex";
-}
-
-/* --------- Меню --------- */
-
 document.querySelectorAll(".menu-btn").forEach(btn=>{
     btn.addEventListener("click",()=>{
-       currentMode=btn.dataset.mode;
-       document.getElementById("modeTitle").innerText = btn.innerText;
-       menu.style.display="none";
-       arena.style.display="block";
-       status.style.display="block";
-       controlPanel.style.display="flex";
+        currentMode=btn.dataset.mode;
+        modeLabel.innerText=btn.innerText;
+        menu.style.display="none";
+        arena.style.display="block";
+        status.style.display="block";
+        controlPanel.style.display="flex";
     });
 });
 
-startBtn.addEventListener("click",startSeries);
-
-backBtn.addEventListener("click", ()=>{
+backBtn.addEventListener("click",()=>{
     clearArena();
     status.innerHTML="";
     arena.style.display="none";
