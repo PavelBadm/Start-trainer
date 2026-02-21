@@ -288,6 +288,7 @@ async function startSeries(){
         await sleep(randomBetween(500,800));
     }
 
+    clearArena();
     status.innerText="";
     running=false;
     startBtn.style.display="block";
