@@ -36,7 +36,7 @@
     
 .menu-btn{
     padding:4vw 6vw;
-    font-size:5vw;
+    font-size:min(5vw,20px);
     border-radius:3vw;
 }
 
@@ -145,13 +145,13 @@ const controlPanel = document.getElementById("controlPanel");
 /* ---- Позиции (визуально те же, углы часовые) ---- */
 
 const positions = [
-    {angle:45,  x:"75%", y:"25%"},  // ППУ
-    {angle:90,  x:"80%", y:"50%"},  // ППП
-    {angle:135, x:"75%", y:"75%"},  // ПЗУ
-    {angle:225, x:"25%", y:"75%"},  // ЛЗУ
-    {angle:270, x:"20%", y:"50%"},  // ЛПП
-    {angle:315, x:"25%", y:"25%"},  // ЛПУ
-    {angle:180, x:"50%", y:"50%", hit:true} // В тебя
+    {angle:45,  x:"85%", y:"10%"},   // ППУ
+    {angle:90,  x:"90%", y:"50%"},   // ППП
+    {angle:135, x:"85%", y:"90%"},   // ПЗУ
+    {angle:225, x:"15%", y:"90%"},   // ЛЗУ
+    {angle:270, x:"10%", y:"50%"},   // ЛПП
+    {angle:315, x:"15%", y:"10%"},   // ЛПУ
+    {angle:180, x:"50%", y:"50%", hit:true}// В тебя
 ];
 
 function getPos(angle){
@@ -339,8 +339,8 @@ async function startSeries(){
 
         status.innerHTML = `
           <div style="text-align:center;">
-            <div style="font-size:min(7vw,32px);">Лёгкость</div>
-            <div style="font-size:min(3.5vw,16px); opacity:0.7;">
+            <div style="font-size:min(9vw,36px);">Лёгкость</div>
+            <div style="font-size:min(4vw,18px); opacity:0.75;">
               Локти вверх — ноги свободны
             </div>
           </div>
