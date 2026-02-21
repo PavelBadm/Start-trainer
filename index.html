@@ -201,22 +201,38 @@ function generateRound(modeKey, steps){
     let prev=null;
 
     if(mode.type==="static"){
-        prev = mode.angles[Math.floor(Math.random()*mode.angles.length)];
-        round.push(prev);
+    prev = mode.angles[Math.floor(Math.random()*mode.angles.length)];
+    round.push(prev);
 
-        for(let i=1;i<steps;i++){
-            let next;
+    let repeatCount = 1;
 
-            if(Math.random()<0.35){
-                next=prev; // повтор
-            }else{
-                next=mode.angles[Math.floor(Math.random()*mode.angles.length)];
+    for(let i=1;i<steps;i++){
+        let next;
+
+        // вероятность повтора
+        if(Math.random() < 0.35 && repeatCount < 4){
+            next = prev;
+        } else {
+            // выбираем любое направление
+            next = mode.angles[Math.floor(Math.random()*mode.angles.length)];
+
+            // если случайно выпал тот же угол и уже 4 подряд — принудительно меняем
+            if(next === prev && repeatCount >= 4){
+                const alternatives = mode.angles.filter(a => a !== prev);
+                next = alternatives[Math.floor(Math.random()*alternatives.length)];
             }
-
-            round.push(next);
-            prev=next;
         }
+
+        if(next === prev){
+            repeatCount++;
+        } else {
+            repeatCount = 1;
+        }
+
+        round.push(next);
+        prev = next;
     }
+}
 
     if(mode.type==="diagonal"){
         prev = mode.back;
