@@ -308,29 +308,33 @@ let currentMode=null;
 
 const arena=document.getElementById("arena");
 const startBtn=document.getElementById("startBtn");
-const backBtn=document.getElementById("backBtn");
+const backBtn = document.getElementById("backBtn");
 const menu=document.getElementById("menu");
 const status=document.getElementById("status");
-const controlPanel=document.getElementById("controlPanel");
-const modeLabel=document.getElementById("modeLabel");
+const controlPanel = document.getElementById("controlPanel");
 
-const positions=[
-    {angle:45,x:"78%",y:"12%"},
-    {angle:90,x:"88%",y:"50%"},
-    {angle:135,x:"78%",y:"88%"},
-    {angle:225,x:"22%",y:"88%"},
-    {angle:270,x:"12%",y:"50%"},
-    {angle:315,x:"22%",y:"12%"},
-    {angle:180,x:"50%",y:"50%",hit:true}
+/* ---- Позиции (визуально те же, углы часовые) ---- */
+
+const positions = [
+    {angle:45,  x:"78%", y:"12%"},   // ППУ
+    {angle:90,  x:"88%", y:"50%"},   // ППП
+    {angle:135, x:"78%", y:"88%"},   // ПЗУ
+    {angle:225, x:"22%", y:"88%"},   // ЛЗУ
+    {angle:270, x:"12%", y:"50%"},   // ЛПП
+    {angle:315, x:"22%", y:"12%"},   // ЛПУ
+    {angle:180, x:"50%", y:"50%", hit:true}    // В тебя
 ];
 
-function getPos(angle){return positions.find(p=>p.angle===angle);}
-function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
-function randomBetween(min,max){return min+Math.random()*(max-min);}
+function getPos(angle){
+    return positions.find(p=>p.angle===angle);
+}
+
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+function randomBetween(min,max){ return min+Math.random()*(max-min); }
 
 function initAudio(){
     if(!audioCtx){
-        audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+        audioCtx=new (window.AudioContext||window.webkitAudioContext)();
     }
 }
 
@@ -361,30 +365,192 @@ function arrowSound(){
     osc.stop(audioCtx.currentTime+0.12);
 }
 
-function clearArena(){arena.innerHTML='<div id="modeLabel" class="mode-label">'+modeLabel.innerText+'</div>';}
+function clearArena(){ arena.innerHTML=""; }
 
 function showArrow(pos){
     clearArena();
     const el=document.createElement("div");
-    el.className=pos.hit?"arrow-hit":"arrow";
+    el.className = pos.hit ? "arrow-hit" : "arrow";
     el.style.left=pos.x;
     el.style.top=pos.y;
-    el.style.transform=`translate(-50%,-50%) rotate(${pos.angle-90}deg)`;
+    let transform=`translate(-50%, -50%) rotate(${pos.angle - 90}deg)`;
+    el.style.transform=transform;
     arena.appendChild(el);
 }
 
+/* --------- Режимы --------- */
+
+const modes={
+    main:{ type:"static", angles:[45,90,135,225,270,315] },
+    defense:{ type:"static", angles:[90,270] },
+    front:{ type:"static", angles:[45,315] },
+    back:{ type:"static", angles:[135,225] },
+    diag1:{ type:"diagonal", back:225, front:45 },  // ЛЗ – ПП
+    diag2:{ type:"diagonal", back:135, front:315 }  // ПЗ – ЛП
+};
+
+/* --------- Генерация --------- */
+
+function generateRound(modeKey, steps){
+
+    const mode=modes[modeKey];
+    let round=[];
+    let prev=null;
+
+if(mode.type==="static"){
+
+    const angles = mode.angles;
+    prev = angles[Math.floor(Math.random()*angles.length)];
+    round.push(prev);
+
+    let repeatCount = 1;
+
+    for(let i=1;i<steps;i++){
+
+        let next;
+
+        // ---- СПЕЦИАЛЬНАЯ ЛОГИКА ДЛЯ 2 УГЛОВ ----
+        if(angles.length === 2){
+
+            const [a,b] = angles;
+            const repeatProb = 0.32; // можно тонко настраивать
+
+            if(prev === a){
+                if(Math.random() < repeatProb && repeatCount < 3){
+                    next = a;
+                } else {
+                    next = b;
+                }
+            } else {
+                if(Math.random() < repeatProb && repeatCount < 3){
+                    next = b;
+                } else {
+                    next = a;
+                }
+            }
+
+        } 
+        // ---- ДЛЯ 6-УГЛОВЫХ РЕЖИМОВ ----
+        else {
+
+            if(Math.random() < 0.30 && repeatCount < 3){
+                next = prev;
+            } else {
+                const alternatives = angles.filter(a => a !== prev);
+                next = alternatives[Math.floor(Math.random()*alternatives.length)];
+            }
+
+        }
+
+        if(next === prev){
+            repeatCount++;
+        } else {
+            repeatCount = 1;
+        }
+
+        round.push(next);
+        prev = next;
+    }
+}
+
+    if(mode.type==="diagonal"){
+        prev = mode.back;
+        round.push(prev);
+
+        for(let i=1;i<steps;i++){
+            let next;
+
+            if(prev===mode.back){
+                const r=Math.random();
+                if(r<0.4) next=mode.back;               // повтор задней
+                else if(r<0.75) next=mode.front;        // диагональ
+                else next=[90,270][Math.floor(Math.random()*2)]; // обрыв
+            }else{
+                const r=Math.random();
+                if(r<0.55) next=mode.back;
+                else if(r<0.8) next=mode.front;
+                else next=[90,270][Math.floor(Math.random()*2)];
+            }
+
+            round.push(next);
+            prev=next;
+        }
+    }
+
+    /* --- гарантированный "в тебя" --- */
+
+    const hitIndex = Math.floor(randomBetween(2,steps-2));
+    round[hitIndex]=180;
+
+    return round;
+}
+
+/* --------- Серия --------- */
+
+async function startSeries(){
+
+    if(running) return;
+    running=true;
+
+    initAudio();
+    await audioCtx.resume();
+
+    controlPanel.style.display="none";
+    
+    const steps=Math.floor(randomBetween(10,15));
+    const round=generateRound(currentMode,steps);
+
+    for(let i=0;i<round.length;i++){
+
+        clearArena();
+        status.innerHTML="";
+
+        await sleep(randomBetween(400,1200));
+
+        status.innerHTML = `
+          <div style="text-align:center;">
+            <div style="font-size:min(9vw,36px);">Невесомость</div>
+            <div style="font-size:min(4vw,18px); opacity:0.75;">
+              Кисти вверх — ноги свободны
+            </div>
+          </div>
+        `;
+        risingSound();
+
+        await sleep(600 + randomBetween(50,150));
+        
+        status.innerHTML="";
+
+        const pos=getPos(round[i]);
+        showArrow(pos);
+        arrowSound();
+
+        await sleep(800);
+        await sleep(randomBetween(500,800));
+    }
+
+    clearArena();
+    status.innerHTML="";
+    running=false;
+    controlPanel.style.display="flex";
+}
+
+/* --------- Меню --------- */
+
 document.querySelectorAll(".menu-btn").forEach(btn=>{
     btn.addEventListener("click",()=>{
-        currentMode=btn.dataset.mode;
-        modeLabel.innerText=btn.innerText;
-        menu.style.display="none";
-        arena.style.display="block";
-        status.style.display="block";
-        controlPanel.style.display="flex";
+       currentMode=btn.dataset.mode;
+       document.getElementById("modeTitle").innerText = btn.innerText;
+       menu.style.display="none";
+       arena.style.display="block";
+       status.style.display="block";
+       controlPanel.style.display="flex";
     });
 });
 
-backBtn.addEventListener("click",()=>{
+startBtn.addEventListener("click",startSeries);
+
+backBtn.addEventListener("click", ()=>{
     clearArena();
     status.innerHTML="";
     arena.style.display="none";
