@@ -221,10 +221,8 @@ details ul{
 
 <div id="status" style="display:none"></div>
 
-<div id="arena" style="display:none">
-    <div id="modeLabel" class="mode-label"></div>
-</div>
-
+<div id="arena" style="display:none"></div>
+    
 <div id="controlPanel">
 
 ```
@@ -371,11 +369,9 @@ function arrowSound(){
 }
 
 function clearArena(){
-    const label = document.getElementById("modeLabel");
     arena.innerHTML="";
-    if(label) arena.appendChild(label);
 }
-
+    
 function showArrow(pos){
     if(!pos) return;
     clearArena();
@@ -536,11 +532,6 @@ async function startSeries(){
 document.querySelectorAll(".menu-btn").forEach(btn=>{
     btn.addEventListener("click",()=>{
        currentMode = btn.dataset.mode;
-
-       const modeLabel = document.getElementById("modeLabel");
-       if (modeLabel) {
-           modeLabel.innerText = btn.innerText;
-       }
 
        menu.style.display="none";
        arena.style.display="block";
