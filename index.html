@@ -120,6 +120,16 @@ body{
     border-bottom:10px solid transparent;
 }
 
+/* ===== Волан ===== */
+
+.shuttle{
+    position:absolute;
+    width:40px;
+    height:60px;
+    pointer-events:none;
+    transform:translate(-50%, -50%);
+}
+    
 /* ===== Кнопки ===== */
 
 button{
@@ -370,16 +380,48 @@ function clearArena(){
     
 function showArrow(pos){
     if(!pos) return;
+
     clearArena();
+
     const el=document.createElement("div");
     el.className = pos.hit ? "arrow-hit" : "arrow";
     el.style.left=pos.x;
     el.style.top=pos.y;
-    let transform=`translate(-50%, -50%) rotate(${pos.angle - 90}deg)`;
-    el.style.transform=transform;
+    el.style.transform=`translate(-50%, -50%) rotate(${pos.angle - 90}deg)`;
     arena.appendChild(el);
-}
 
+    // ---- ДОБАВЛЯЕМ ВОЛАН ----
+    const shuttle=document.createElement("div");
+    shuttle.className="shuttle";
+
+    shuttle.innerHTML=`
+    <svg viewBox="0 0 40 60" width="40" height="60">
+      <!-- Перья -->
+      <polygon points="20,0 5,35 35,35" fill="#ffffff"/>
+      
+      <!-- Голова -->
+      <circle cx="20" cy="45" r="8" fill="#f0f0f0"/>
+    </svg>
+    `;
+    
+    // позиционирование волана
+    let offset=70; // расстояние от центра стрелки
+
+    if(pos.hit){
+        shuttle.style.left=pos.x;
+        shuttle.style.top=`calc(${pos.y} + ${offset}px)`;
+    } else {
+        const angleRad=(pos.angle-90)*Math.PI/180;
+        const dx=Math.cos(angleRad)*offset;
+        const dy=Math.sin(angleRad)*offset;
+
+        shuttle.style.left=`calc(${pos.x} + ${dx}px)`;
+        shuttle.style.top=`calc(${pos.y} + ${dy}px)`;
+    }
+
+    arena.appendChild(shuttle);
+}
+    
 /* --------- Режимы --------- */
 
 const modes={
