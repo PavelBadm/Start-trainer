@@ -124,8 +124,8 @@ body{
 
 .shuttle{
     position:absolute;
-    width:40px;
-    height:60px;
+    width:min(8vmin,60px);
+    height:auto;
     pointer-events:none;
     transform:translate(-50%, -50%);
 }
@@ -395,32 +395,32 @@ function showArrow(pos){
     shuttle.className="shuttle";
 
     shuttle.innerHTML=`
-    <svg viewBox="0 0 60 80" width="40" height="60">
+    <svg viewBox="0 0 60 100" width="100%" height="auto">
 
       <!-- Голова (полукруг) -->
-      <path d="M15 50
-               A15 15 0 0 1 45 50
-               L45 55
-               L15 55
+      <path d="M15 70
+               A15 15 0 0 1 45 70
+               L45 75
+               L15 75
                Z"
             fill="#f2f2f2"/>
 
       <!-- Красная ленточка -->
-      <rect x="15" y="55" width="30" height="6" fill="#ff4444"/>
+      <rect x="15" y="75" width="30" height="6" fill="#ff4444"/>
 
-      <!-- Юбка (трапеция) -->
-      <polygon points="15,61 45,61 52,75 8,75"
+      <!-- Юбка -->
+      <polygon points="10,20 50,20 45,75 15,75"
                fill="#ffffff"/>
 
     </svg>
     `;
-    
-    // позиционирование волана
-    let offset=95; // расстояние от центра стрелки
+
+    const size = arena.offsetWidth * 0.08;
+    const offset = size * 1.3;
 
     if(pos.hit){
-        shuttle.style.left=pos.x;
-        shuttle.style.top=`calc(${pos.y} + ${offset}px)`;
+        shuttle.style.left = pos.x;
+        shuttle.style.top = `calc(${pos.y} + ${offset}px)`;
     } else {
         const angleRad=(pos.angle-90)*Math.PI/180;
         const dx=Math.cos(angleRad)*offset;
