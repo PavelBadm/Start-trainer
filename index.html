@@ -154,8 +154,11 @@ button{
 
 .method-header{
     font-size:min(5vw,18px);
-    color:#ffaa55;
-    margin-bottom:4px;
+    font-weight:600;
+    margin-bottom:12px;
+    color:white;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+    padding-bottom:6px;
 }
 
 .method-card{
@@ -180,9 +183,9 @@ button{
 .method-title{
     font-weight:600;
     margin-bottom:6px;
-    color:#ffaa55;
+    color:white;
 }
-
+    
 details summary{
     cursor:pointer;
     color:rgba(255,255,255,0.8);
@@ -198,6 +201,7 @@ details ul{
     color:#ffaa55;
     font-weight:600;
 }
+
 </style>
 </head>
 
@@ -226,9 +230,11 @@ details ul{
         <button id="backBtn">Режимы</button>
     </div>
 
-    <div class="method-header">Как выполнять упражнение</div>
     <div id="methodBlock" class="method-card">
-
+      <div class="method-header">
+        Как выполнять упражнение
+      </div>
+        
       <!-- Фаза 1 -->
       <div class="method-section">
         <div class="method-title">🔊 Услышал нарастающий звук — представь замах соперника</div>
@@ -238,11 +244,11 @@ details ul{
             Ты «зависаешь» в воздухе, не угадывая направление будущего движения.
         </div>
 
-        <details class="method-details" open>
+        <details class="method-details">
           <summary>Как прийти в невесомость</summary>
           <ul>
             <li>резким движением выброси кисти рук в стороны и чуть вверх;</li>
-            <li>подтяни колени через сгиб в тазобедренном (как кенгуру);</li>
+            <li>подтяни колени перед собой через сгиб в тазобедренном;</li>
             <li>сними лишнее напряжение с мышц ног.</li>
           </ul>
         </details>
