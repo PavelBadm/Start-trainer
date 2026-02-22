@@ -539,15 +539,20 @@ async function startSeries(){
 
 document.querySelectorAll(".menu-btn").forEach(btn=>{
     btn.addEventListener("click",()=>{
-       currentMode=btn.dataset.mode;
-       document.getElementById("modeTitle").innerText = btn.innerText;
+       currentMode = btn.dataset.mode;
+
+       // обновляем подпись режима
+       const modeLabel = document.getElementById("modeLabel");
+       if (modeLabel) {
+           modeLabel.innerText = btn.innerText;
+       }
+
        menu.style.display="none";
        arena.style.display="block";
        status.style.display="block";
        controlPanel.style.display="flex";
     });
 });
-
 startBtn.addEventListener("click",startSeries);
 
 backBtn.addEventListener("click", ()=>{
