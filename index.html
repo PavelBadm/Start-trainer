@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
 <head>
 <meta charset="UTF-8">
@@ -203,6 +204,7 @@ details ul{
 }
 
 </style>
+
 </head>
 
 <body>
@@ -225,79 +227,82 @@ details ul{
 
 <div id="controlPanel">
 
-    <div class="control-buttons">
-        <button id="startBtn">Старт</button>
-        <button id="backBtn">Режимы</button>
+```
+<div class="control-buttons">
+    <button id="startBtn">Старт</button>
+    <button id="backBtn">Режимы</button>
+</div>
+
+<div id="methodBlock" class="method-card">
+  <div class="method-header">
+    Как выполнять упражнение
+  </div>
+    
+  <!-- Фаза 1 -->
+  <div class="method-section">
+    <div class="method-title">🔊 Услышал нарастающий звук — это замах соперника</div>
+
+    <div class="method-main">
+        Цель игрока — <span class="accent">состояние невесомости</span>.
+        Нужно «зависнуть» в воздухе, не угадывая направление будущего движения.
     </div>
 
-    <div id="methodBlock" class="method-card">
-      <div class="method-header">
-        Как выполнять упражнение
-      </div>
-        
-      <!-- Фаза 1 -->
-      <div class="method-section">
-        <div class="method-title">🔊 Услышал нарастающий звук — это замах соперника</div>
+    <details class="method-details">
+      <summary>Как прийти в невесомость</summary>
+      <ul>
+        <li>резким движением выброси кисти рук в стороны и чуть вверх;</li>
+        <li>не подпрыгивая, подтяни колени;</li>
+        <li>сними лишнее напряжение с мышц ног.</li>
+      </ul>
+    </details>
+  </div>
 
-        <div class="method-main">
-            Цель игрока — <span class="accent">состояние невесомости</span>.
-            Нужно «зависнуть» в воздухе, не угадывая направление будущего движения.
-        </div>
+  <!-- Фаза 2 в сторону -->
+  <div class="method-section">
+    <div class="method-title">🔔 Услышал короткий звук и увидел стрелку — это удар соперника</div>
 
-        <details class="method-details">
-          <summary>Как прийти в невесомость</summary>
-          <ul>
-            <li>резким движением выброси кисти рук в стороны и чуть вверх;</li>
-            <li>не подпрыгивая, подтяни колени;</li>
-            <li>сними лишнее напряжение с мышц ног.</li>
-          </ul>
-        </details>
-      </div>
+    <div class="method-main">
+      Цель — <span class="accent">мягко коснуться площадки</span> и <span class="accent">резко загрузить противоположную ногу</span>.
+    </div>
 
-      <!-- Фаза 2 в сторону -->
-      <div class="method-section">
-        <div class="method-title">🔔 Услышал короткий звук и увидел стрелку — это удар соперника</div>
-
-        <div class="method-main">
-          Цель — <span class="accent">мягко коснуться площадки</span> и <span class="accent">резко загрузить противоположную ногу</span>.
-        </div>
-
-        <details class="method-details">
-              <summary>Как выполнить движение</summary>
-              <ul>
-                <li>резко разведи локти в стороны — почувствуй движение корпуса вниз и мягкое упругое касание площадки расслабленными ногами;</li>
-                <li>сильно толкнись вбок противоположной ногой;</li>
-                <li>вынеси ближнюю ногу в сторону удара и перенеси на неё корпус.</li>
-              </ul>
-
-              <details class="method-subdetails">
-                <summary>Ориентация ближней ноги по глубине удара</summary>
-                <ul>
-                  <li>вперёд — если удар в переднюю зону;</li>
-                  <li>назад — если в заднюю зону;</li>
-                  <li>разверни левую стопу к боковой линии — если удар в левые пол-поля;</li>
-                  <li>правую оставь без изменений — если в правые пол-поля.</li>
-                </ul>
-              </details>
-            </details>
-          </div>
-
-      <!-- Фаза 2 в тебя -->
-      <div class="method-section">
-        <div class="method-main">
-          Если же волан летит в тебя, цель — 
-          <span class="accent">движение на волан</span>.
-        </div>
-
-        <details class="method-details">
+    <details class="method-details">
           <summary>Как выполнить движение</summary>
           <ul>
-            <li>упруго приземлись на две ноги;</li>
-            <li>создай опору ногами и подайся корпусом вперёд;</li>
-            <li>при необходимости сделай короткий шаг навстречу волану.</li>
+            <li>резко разведи локти в стороны — почувствуй движение корпуса вниз и мягкое упругое касание площадки расслабленными ногами;</li>
+            <li>сильно толкнись вбок противоположной ногой;</li>
+            <li>вынеси ближнюю ногу в сторону удара и перенеси на неё корпус.</li>
           </ul>
+
+          <details class="method-subdetails">
+            <summary>Ориентация ближней ноги по глубине удара</summary>
+            <ul>
+              <li>вперёд — если удар в переднюю зону;</li>
+              <li>назад — если в заднюю зону;</li>
+              <li>разверни левую стопу к боковой линии — если удар в левые пол-поля;</li>
+              <li>правую оставь без изменений — если в правые пол-поля.</li>
+            </ul>
+          </details>
         </details>
       </div>
+
+  <!-- Фаза 2 в тебя -->
+  <div class="method-section">
+    <div class="method-main">
+      Если же волан летит в тебя, цель — 
+      <span class="accent">движение на волан</span>.
+    </div>
+
+    <details class="method-details">
+      <summary>Как выполнить движение</summary>
+      <ul>
+        <li>упруго приземлись на две ноги;</li>
+        <li>создай опору ногами и подайся корпусом вперёд;</li>
+        <li>при необходимости сделай короткий шаг навстречу волану.</li>
+      </ul>
+    </details>
+  </div>
+```
+
   </div>
 </div>
 
@@ -365,9 +370,14 @@ function arrowSound(){
     osc.stop(audioCtx.currentTime+0.12);
 }
 
-function clearArena(){ arena.innerHTML=""; }
+function clearArena(){
+    const label = document.getElementById("modeLabel");
+    arena.innerHTML="";
+    if(label) arena.appendChild(label);
+}
 
 function showArrow(pos){
+    if(!pos) return;
     clearArena();
     const el=document.createElement("div");
     el.className = pos.hit ? "arrow-hit" : "arrow";
@@ -394,90 +404,77 @@ const modes={
 function generateRound(modeKey, steps){
 
     const mode=modes[modeKey];
+    if(!mode) return [];
+
     let round=[];
     let prev=null;
 
-if(mode.type==="static"){
+    if(mode.type==="static"){
 
-    const angles = mode.angles;
-    prev = angles[Math.floor(Math.random()*angles.length)];
-    round.push(prev);
+        const angles = mode.angles;
+        prev = angles[Math.floor(Math.random()*angles.length)];
+        round.push(prev);
 
-    let repeatCount = 1;
+        let repeatCount = 1;
 
-    for(let i=1;i<steps;i++){
+        for(let i=1;i<steps;i++){
 
-        let next;
+            let next;
 
-        // ---- СПЕЦИАЛЬНАЯ ЛОГИКА ДЛЯ 2 УГЛОВ ----
-        if(angles.length === 2){
+            if(angles.length === 2){
 
-            const [a,b] = angles;
-            const repeatProb = 0.32; // можно тонко настраивать
+                const [a,b] = angles;
+                const repeatProb = 0.32;
 
-            if(prev === a){
-                if(Math.random() < repeatProb && repeatCount < 3){
-                    next = a;
+                if(prev === a){
+                    next = (Math.random() < repeatProb && repeatCount < 3) ? a : b;
                 } else {
-                    next = b;
+                    next = (Math.random() < repeatProb && repeatCount < 3) ? b : a;
                 }
-            } else {
-                if(Math.random() < repeatProb && repeatCount < 3){
-                    next = b;
+
+            } 
+            else {
+
+                if(Math.random() < 0.30 && repeatCount < 3){
+                    next = prev;
                 } else {
-                    next = a;
+                    const alternatives = angles.filter(a => a !== prev);
+                    next = alternatives[Math.floor(Math.random()*alternatives.length)];
                 }
+
             }
 
-        } 
-        // ---- ДЛЯ 6-УГЛОВЫХ РЕЖИМОВ ----
-        else {
+            repeatCount = (next === prev) ? repeatCount + 1 : 1;
 
-            if(Math.random() < 0.30 && repeatCount < 3){
-                next = prev;
-            } else {
-                const alternatives = angles.filter(a => a !== prev);
-                next = alternatives[Math.floor(Math.random()*alternatives.length)];
-            }
-
+            round.push(next);
+            prev = next;
         }
-
-        if(next === prev){
-            repeatCount++;
-        } else {
-            repeatCount = 1;
-        }
-
-        round.push(next);
-        prev = next;
     }
-}
 
     if(mode.type==="diagonal"){
         prev = mode.back;
         round.push(prev);
+        let repeatCount = 1;
 
         for(let i=1;i<steps;i++){
             let next;
+            const r=Math.random();
 
             if(prev===mode.back){
-                const r=Math.random();
-                if(r<0.4) next=mode.back;               // повтор задней
-                else if(r<0.75) next=mode.front;        // диагональ
-                else next=[90,270][Math.floor(Math.random()*2)]; // обрыв
+                if(r<0.4 && repeatCount<3) next=mode.back;
+                else if(r<0.75) next=mode.front;
+                else next=[90,270][Math.floor(Math.random()*2)];
             }else{
-                const r=Math.random();
                 if(r<0.55) next=mode.back;
-                else if(r<0.8) next=mode.front;
+                else if(r<0.8 && repeatCount<3) next=mode.front;
                 else next=[90,270][Math.floor(Math.random()*2)];
             }
 
+            repeatCount = (next===prev)?repeatCount+1:1;
             round.push(next);
             prev=next;
         }
     }
-
-    /* --- гарантированный "в тебя" --- */
 
     const hitIndex = Math.floor(randomBetween(2,steps-2));
     round[hitIndex]=180;
@@ -489,7 +486,7 @@ if(mode.type==="static"){
 
 async function startSeries(){
 
-    if(running) return;
+    if(running || !currentMode) return;
     running=true;
 
     initAudio();
@@ -525,8 +522,7 @@ async function startSeries(){
         showArrow(pos);
         arrowSound();
 
-        await sleep(800);
-        await sleep(randomBetween(500,800));
+        await sleep(800 + randomBetween(500,800));
     }
 
     clearArena();
@@ -541,7 +537,6 @@ document.querySelectorAll(".menu-btn").forEach(btn=>{
     btn.addEventListener("click",()=>{
        currentMode = btn.dataset.mode;
 
-       // обновляем подпись режима
        const modeLabel = document.getElementById("modeLabel");
        if (modeLabel) {
            modeLabel.innerText = btn.innerText;
@@ -553,9 +548,11 @@ document.querySelectorAll(".menu-btn").forEach(btn=>{
        controlPanel.style.display="flex";
     });
 });
+
 startBtn.addEventListener("click",startSeries);
 
 backBtn.addEventListener("click", ()=>{
+    running=false;
     clearArena();
     status.innerHTML="";
     arena.style.display="none";
