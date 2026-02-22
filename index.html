@@ -324,14 +324,14 @@ const controlPanel = document.getElementById("controlPanel");
 
 /* ---- Позиции (визуально те же, углы часовые) ---- */
 
-const positions = [
-    {angle:45,  x:"78%", y:"12%"},   // ППУ
-    {angle:90,  x:"88%", y:"50%"},   // ППП
-    {angle:135, x:"78%", y:"88%"},   // ПЗУ
-    {angle:225, x:"22%", y:"88%"},   // ЛЗУ
-    {angle:270, x:"12%", y:"50%"},   // ЛПП
-    {angle:315, x:"22%", y:"12%"},   // ЛПУ
-    {angle:180, x:"50%", y:"50%", hit:true}    // В тебя
+    const positions = [
+    {angle:45,  x:"70%", y:"18%"},
+    {angle:90,  x:"80%", y:"50%"},
+    {angle:135, x:"70%", y:"82%"},
+    {angle:225, x:"30%", y:"82%"},
+    {angle:270, x:"20%", y:"50%"},
+    {angle:315, x:"30%", y:"18%"},
+    {angle:180, x:"50%", y:"50%", hit:true}
 ];
 
 function getPos(angle){
@@ -397,20 +397,20 @@ function showArrow(pos){
     shuttle.innerHTML=`
     <svg viewBox="0 0 60 100" width="100%" height="auto">
 
-      <!-- Голова (полукруг) -->
-      <path d="M15 70
-               A15 15 0 0 1 45 70
-               L45 75
-               L15 75
-               Z"
-            fill="#f2f2f2"/>
+      <!-- Юбка (настоящая трапеция, широкая сверху) -->
+      <polygon points="5,20 55,20 40,70 20,70"
+               fill="#ffffff"/>
 
       <!-- Красная ленточка -->
-      <rect x="15" y="75" width="30" height="6" fill="#ff4444"/>
+      <rect x="20" y="70" width="20" height="6" fill="#ff4444"/>
 
-      <!-- Юбка -->
-      <polygon points="10,20 50,20 45,75 15,75"
-               fill="#ffffff"/>
+      <!-- Голова (реальный полукруг) -->
+      <path d="M20 76
+               A10 10 0 0 1 40 76"
+            fill="none"
+            stroke="#f2f2f2"
+            stroke-width="20"
+            stroke-linecap="round"/>
 
     </svg>
     `;
