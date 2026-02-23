@@ -481,23 +481,31 @@ function showArrow(angle){
     const H = arenaRect.height;
     const W = arenaRect.width;
 
-    // Максимальная доля экрана
-    const shuttleSize = W * 0.09;   // тот же расчёт, что ниже
-    const maxHeight = H * 0.8;
+    // Размер волана
+    const shuttleSize = W * 0.09;
 
-    // Оставляем запас под волан
-    const sidePadding = shuttleSize * 2;
-    const maxWidth  = W - sidePadding * 2;
-    
-    // Базовое соотношение 0.7 (портрет)
+    // Насколько близко к линии хотим бить
+    // 2.2 — аккуратно почти касание
+    // 2.0 — ближе
+    // 1.8 — почти в линию
+    const lineFactor = 2.2;
+
+    // Максимальные размеры внутреннего прямоугольника
+    const maxHeight = H - shuttleSize * lineFactor;
+    const maxWidth  = W - shuttleSize * lineFactor;
+
+    // Базовое соотношение (как у тебя было)
+    const ratio = 0.7;
+
     let rectHeight = maxHeight;
-    let rectWidth  = rectHeight * 0.7;
+    let rectWidth  = rectHeight * ratio;
 
-    // Если ширина выходит за пределы — ограничиваем
+    // Если по ширине не помещается — ограничиваем
     if(rectWidth > maxWidth){
         rectWidth = maxWidth;
-        rectHeight = rectWidth / 0.7;
+        rectHeight = rectWidth / ratio;
     }
+    
         const centerX = W/2;
         const centerY = H/2;
 
@@ -511,7 +519,7 @@ function showArrow(angle){
     // ---- боковые ----
     if(angle === 90){
         tipX = right;
-        tipY = centerY;
+        tipY = centerY + shuttleSize * 0.6;
     }
     else if(angle === 270){
         tipX = left;
