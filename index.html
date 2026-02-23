@@ -387,18 +387,24 @@ function risingSound(){
 }
 
 function arrowSound(){
-    const osc=audioCtx.createOscillator();
-    const gain=audioCtx.createGain();
-    osc.type="sine";
-    osc.frequency.value=850;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+
+    const now = audioCtx.currentTime;
+
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(850, now);
+
     osc.connect(gain);
     gain.connect(audioCtx.destination);
-    gain.gain.setValueAtTime(0.4,audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.12);
-    osc.start();
-    osc.stop(audioCtx.currentTime+0.12);
-}
 
+    gain.gain.setValueAtTime(0.4, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+
+    osc.start(now);
+    osc.stop(now + 0.12);
+}
+    
 function clearArena(){
     arena.innerHTML="";
 }
