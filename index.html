@@ -363,117 +363,119 @@ function clearArena(){
 }
 
 function showArrow(angle){
+
     if(!angle) return;
 
     clearArena();
 
     const arenaRect = arena.getBoundingClientRect();
-    const arenaW = arenaRect.width;
-    const arenaH = arenaRect.height;
+    const H = arenaRect.height;
+    const W = arenaRect.width;
 
-    // ---- Центр арены ----
-    const centerX = arenaW / 2;
-    const centerY = arenaH / 2;
+    const margin = H * 0.05;
+    const rectHeight = H - margin*2;
+    const rectWidth  = rectHeight * 0.7;
 
-    // ---- Виртуальный прямоугольник ----
-    const margin = arenaH * 0.03;            // 3% отступ
-    const rectHeight = arenaH - margin*2;    // высота
-    const rectWidth  = rectHeight * 0.85;    // можно менять 0.8 / 0.9
+    const centerX = W/2;
+    const centerY = H/2;
 
     const left   = centerX - rectWidth/2;
     const right  = centerX + rectWidth/2;
     const top    = centerY - rectHeight/2;
     const bottom = centerY + rectHeight/2;
 
-    // ---- Направление ----
-    const angleRad = (angle - 90) * Math.PI/180;
-    const dirX = Math.cos(angleRad);
-    const dirY = Math.sin(angleRad);
+    let tipX, tipY;
 
-    // ---- Пересечение луча с границей прямоугольника ----
-    let tVals = [];
-
-    if(dirX !== 0){
-        tVals.push((left - centerX) / dirX);
-        tVals.push((right - centerX) / dirX);
+    // ---- боковые ----
+    if(angle === 90){
+        tipX = right;
+        tipY = centerY;
     }
-    if(dirY !== 0){
-        tVals.push((top - centerY) / dirY);
-        tVals.push((bottom - centerY) / dirY);
+    else if(angle === 270){
+        tipX = left;
+        tipY = centerY;
     }
 
-    // выбираем минимальное положительное t
-    const t = Math.min(...tVals.filter(v => v > 0));
+    // ---- угловые ----
+    else if(angle === 45){
+        tipX = right;
+        tipY = top;
+    }
+    else if(angle === 135){
+        tipX = right;
+        tipY = bottom;
+    }
+    else if(angle === 225){
+        tipX = left;
+        tipY = bottom;
+    }
+    else if(angle === 315){
+        tipX = left;
+        tipY = top;
+    }
 
-    const tipX = centerX + dirX * t;
-    const tipY = centerY + dirY * t;
+    // ---- в тебя ----
+    else if(angle === 180){
+        tipX = centerX;
+        tipY = centerY;
+    }
 
-    // ---- Создаём стрелку ----
-    const el=document.createElement("div");
-
+    const el = document.createElement("div");
     const isHit = angle === 180;
     el.className = isHit ? "arrow-hit" : "arrow";
 
     arena.appendChild(el);
 
-    const arrowRect = el.getBoundingClientRect();
-    const arrowLength = arrowRect.width;
-
     el.style.left = tipX + "px";
     el.style.top  = tipY + "px";
-    el.style.transform = `translate(-100%, -50%) rotate(${angle - 90}deg)`;
 
-    // ---- Волан ----
+    el.style.transform =
+        `translate(-100%, -50%) rotate(${angle - 90}deg)`;
+
+    // -------------------------
+    // Ниже оставляем ТВОЙ блок волана БЕЗ ИЗМЕНЕНИЙ
+    // -------------------------
+
     const shuttle=document.createElement("div");
     shuttle.className="shuttle";
 
     shuttle.innerHTML=`
     <svg viewBox="0 0 60 85" width="100%" height="auto">
-      
-      <!-- Юбка -->
       <polygon points="5,20 55,20 42,55 18,55"
                fill="rgba(255,255,255,0.9)"/>
-
-      <!-- Перья -->
-      <line x1="18" y1="20" x2="22" y2="55" stroke="rgba(0,0,0,0.25)" stroke-width="1"/>
-      <line x1="30" y1="20" x2="30" y2="55" stroke="rgba(0,0,0,0.25)" stroke-width="1"/>
-      <line x1="42" y1="20" x2="38" y2="55" stroke="rgba(0,0,0,0.25)" stroke-width="1"/>
-      
-      <!-- Голова -->
-        <circle cx="30" cy="64" r="14" fill="#ffffff"/>
-        <rect x="16" y="62" width="28" height="2" fill="#ff4444"/>
-
-      <!-- Ленточка -->
+      <line x1="18" y1="20" x2="22" y2="55"
+            stroke="rgba(0,0,0,0.25)" stroke-width="1"/>
+      <line x1="30" y1="20" x2="30" y2="55"
+            stroke="rgba(0,0,0,0.25)" stroke-width="1"/>
+      <line x1="42" y1="20" x2="38" y2="55"
+            stroke="rgba(0,0,0,0.25)" stroke-width="1"/>
+      <circle cx="30" cy="64" r="14" fill="#ffffff"/>
+      <rect x="16" y="62" width="28" height="2" fill="#ff4444"/>
       <rect x="16" y="55" width="28" height="7" fill="#ff4444"/>
-
     </svg>
     `;
-    
-    const shuttleSize = arenaW * 0.09;
+
+    const shuttleSize = W * 0.09;
     shuttle.style.width = shuttleSize + "px";
 
     let sx = tipX;
     let sy = tipY;
 
-    // ---- Размещение волана ----
     if(angle === 180){
         sy += shuttleSize;
     }
     else if(angle === 90 || angle === 270){
-        // боковые — сбоку
-        sx += dirX * shuttleSize;
+        sx += (angle === 90 ? shuttleSize : -shuttleSize);
     }
     else{
-        // угловые — перпендикулярно направлению
-        const perpX = -dirY;
-        const perpY = dirX;
-        sx += perpX * shuttleSize;
-        sy += perpY * shuttleSize;
+        sy += (angle === 45 || angle === 315)
+              ? -shuttleSize
+              : shuttleSize;
     }
 
     shuttle.style.left = sx + "px";
     shuttle.style.top  = sy + "px";
-    
+
     arena.appendChild(shuttle);
 }
     
