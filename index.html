@@ -399,7 +399,7 @@ function showArrow(pos){
     const centerY = arrowRect.top + arrowRect.height/2 - arenaRect.top;
 
     const angleRad = (pos.angle - 90) * Math.PI / 180;
-    const tipLength = arrowRect.width/2 + 18;
+    const tipLength = arrowRect.width/2 + 9;
 
     const tipX = centerX + Math.cos(angleRad) * tipLength;
     const tipY = centerY + Math.sin(angleRad) * tipLength;
@@ -436,34 +436,38 @@ const shuttleSize = arena.offsetWidth * 0.09;
     let dx = 0;
     let dy = 0;
 
-    if(pos.hit){
-        dy = shuttleSize;
-    }
-    else if(pos.angle===135){
-        dx = shuttleSize * 0.8;
+    // Нижние
+    if(pos.angle===135){
+        dx = shuttleSize;
     }
     else if(pos.angle===225){
-        dx = -shuttleSize * 0.8;
+        dx = -shuttleSize;
     }
-    else if(pos.angle===45){        // ЛПП
-        dx = 0;
-        dy = shuttleSize * 0.8;     // вниз под ось
+
+    // Верхние
+    else if(pos.angle===90){
+        dx = shuttleSize;
     }
-    else if(pos.angle===315){       // ППП
-        dx = 0;
-        dy = shuttleSize * 0.8;
+    else if(pos.angle===270){
+        dx = -shuttleSize;
     }
-    else if(pos.angle===90){   // ППУ
-        dx = shuttleSize * 0.8;
-        dy = 0;
+
+    // Пол-поля
+    else if(pos.angle===45){
+        dy = shuttleSize;
     }
-    else if(pos.angle===270){  // ЛПУ
-        dx = -shuttleSize * 0.8;
-        dy = 0;
+    else if(pos.angle===315){
+        dy = shuttleSize;
     }
+
+    // В тебя
+    else if(pos.hit){
+        dy = shuttleSize;
+    }
+
     shuttle.style.left = tipX + dx + "px";
     shuttle.style.top  = tipY + dy + "px";
-
+    
     arena.appendChild(shuttle);
 }
     
