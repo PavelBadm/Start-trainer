@@ -75,19 +75,20 @@ body{
 /* ===== Арена ===== */
 
 #arena{
-    position:relative;
+    position:fixed;
+    top:0;
+    left:0;
     width:100%;
-    max-width:600px;
+    height:100dvh;
 }
-
+    
 /* --- ПОРТРЕТ --- */
 @media (orientation: portrait){
     #arena{
-        height:82vh;     /* можно 80–85vh */
-        max-height:none; /* убираем ограничение */
+        height:100dvh;
     }
 }
-
+    
 /* --- ПЕЙЗАЖ --- */
 @media (orientation: landscape){
     #arena{
