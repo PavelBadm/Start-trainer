@@ -78,26 +78,26 @@ body{
 
 /* ===== Стрелки ===== */
 
-.arrow,
-.arrow-hit{
+.arrow{
     position:absolute;
-    width:min(18vmin,140px);
+    width:min(15vmin,115px);
     height:min(1.6vmin,12px);
     border-radius:999px;
     transform-origin:center center;
-}
-
-.arrow{
     background:#ff7700;
     box-shadow:0 0 15px rgba(255,100,0,0.6);
 }
 
 .arrow-hit{
+    position:absolute;
     width:min(10vmin,70px);
+    height:min(1.6vmin,12px);
+    border-radius:999px;
+    transform-origin:center center;
     background:#ff4444;
     box-shadow:0 0 15px rgba(255,0,0,0.6);
 }
-
+    
 .arrow::after{
     content:'';
     position:absolute;
