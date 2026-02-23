@@ -70,10 +70,19 @@ body{
 
 #arena{
     position:relative;
-    width:min(85vmin,600px);
-    height:min(85vmin,600px);
+    width:100%;
+    max-width:600px;
+    height:70vh;
+    max-height:600px;
 }
 
+@media (orientation: landscape){
+    #arena{
+        height:min(85vmin,600px);
+        width:min(85vmin,600px);
+    }
+}
+    
 .mode-label{
     position:absolute;
     top:10px;
