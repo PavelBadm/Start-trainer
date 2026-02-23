@@ -446,20 +446,20 @@ const shuttleSize = arena.offsetWidth * 0.09;
         dx = -shuttleSize * 0.8;
     }
     else if(pos.angle===45){
-        dx = -shuttleSize * 0.5;
+        dx = shuttleSize * 0.5;   // вправо
         dy = shuttleSize * 0.9;
     }
     else if(pos.angle===315){
-        dx = shuttleSize * 0.5;
+        dx = -shuttleSize * 0.5;  // влево
         dy = shuttleSize * 0.9;
     }
-    else if(pos.angle===90){
-        dx = shuttleSize * 0.6;
-        dy = shuttleSize * 0.9;
+    else if(pos.angle===90){   // ППУ
+        dx = shuttleSize * 1.1;   // сильно вправо
+        dy = -shuttleSize * 0.2;  // немного вверх (к уровню наконечника)
     }
-    else if(pos.angle===270){
-        dx = -shuttleSize * 0.6;
-        dy = shuttleSize * 0.9;
+    else if(pos.angle===270){  // ЛПУ
+        dx = -shuttleSize * 1.1;  // сильно влево
+        dy = -shuttleSize * 0.2;
     }
 
     shuttle.style.left = tipX + dx + "px";
