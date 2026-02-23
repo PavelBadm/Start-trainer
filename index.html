@@ -475,36 +475,27 @@ function showArrow(angle){
 
     if(!angle) return;
 
-    clearArena();
+        clearArena();
 
-    const arenaRect = playArea.getBoundingClientRect();
-    const H = arenaRect.height;
-    const W = arenaRect.width;
+        const arenaRect = playArea.getBoundingClientRect();
+        const H = arenaRect.height;
+        const W = arenaRect.width;
 
-    // Размер волана
-    const shuttleSize = W * 0.09;
+        // Размер волана
+        const shuttleSize = W * 0.09;
 
-    // Насколько близко к линии хотим бить
-    // 2.2 — аккуратно почти касание
-    // 2.0 — ближе
-    // 1.8 — почти в линию
-    const lineFactor = 2.2;
+        // Насколько близко к линии хотим бить
+        // 2.2 — аккуратно почти касание
+        // 2.0 — ближе
+        // 1.8 — почти в линию
+        const lineFactor = 2.2;
 
-    // Максимальные размеры внутреннего прямоугольника
-    const maxHeight = H - shuttleSize * lineFactor;
-    const maxWidth  = W - shuttleSize * lineFactor;
-
-    // Базовое соотношение (как у тебя было)
-    const ratio = 0.7;
-
-    let rectHeight = maxHeight;
-    let rectWidth  = rectHeight * ratio;
-
-    // Если по ширине не помещается — ограничиваем
-    if(rectWidth > maxWidth){
-        rectWidth = maxWidth;
-        rectHeight = rectWidth / ratio;
-    }
+        // Максимальные размеры внутреннего прямоугольника
+        const maxHeight = H - shuttleSize * lineFactor;
+        const maxWidth  = W - shuttleSize * lineFactor;
+    
+        let rectWidth  = maxWidth;
+        let rectHeight = maxHeight;
     
         const centerX = W/2;
         const centerY = H/2;
@@ -519,7 +510,7 @@ function showArrow(angle){
     // ---- боковые ----
     if(angle === 90){
         tipX = right;
-        tipY = centerY + shuttleSize * 0.6;
+        tipY = centerY;
     }
     else if(angle === 270){
         tipX = left;
@@ -547,9 +538,9 @@ function showArrow(angle){
     // ---- в тебя ----
     else if(angle === 180){
         tipX = centerX;
-        tipY = centerY;
+        tipY = centerY + shuttleSize * 0.8;
     }
-
+    
     const el = document.createElement("div");
     const isHit = angle === 180;
     el.className = isHit ? "arrow-hit" : "arrow";
