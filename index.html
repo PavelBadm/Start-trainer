@@ -400,7 +400,7 @@ function showArrow(pos){
       
       <!-- Юбка -->
       <polygon points="5,20 55,20 42,55 18,55"
-               fill="#ffffff"/>
+               fill="rgba(255,255,255,0.5)"/>
 
       <!-- Перья -->
       <line x1="18" y1="20" x2="22" y2="55" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
@@ -430,9 +430,21 @@ function showArrow(pos){
         shuttle.style.top = `calc(${pos.y} + ${offset}px)`;
     } else {
         const angleRad=(pos.angle-90)*Math.PI/180;
-        const dx=Math.cos(angleRad)*offset;
-        const dy=Math.sin(angleRad)*offset;
+        let dx=Math.cos(angleRad)*offset;
+        let dy=Math.sin(angleRad)*offset;
 
+        // --- Перпендикулярное смещение для нижних диагоналей ---
+        if(pos.angle===135 || pos.angle===225){
+        const side = shuttleSize * 0.35;
+
+        // вектор перпендикуляра
+        const perpX = -Math.sin(angleRad);
+        const perpY =  Math.cos(angleRad);
+
+        dx += perpX * side;
+        dy += perpY * side;
+        }
+        
         shuttle.style.left=`calc(${pos.x} + ${dx}px)`;
         shuttle.style.top=`calc(${pos.y} + ${dy}px)`;
     }
