@@ -132,11 +132,20 @@ body{
 .centerLine{
     position:absolute;
     left:50%;
-    top:0;
-    bottom:29.5%;
+    bottom:0;
+    top:29.5%;
     width:3px;
     background:white;
     transform:translateX(-50%);
+}
+
+.doubleServiceLine{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:11.3%;
+    height:3px;
+    background:white;
 }
     
 /* ===== Стрелки ===== */
@@ -314,6 +323,7 @@ details ul{
     <div id="status" style="display:none"></div>
     <div class="court">
         <div class="serviceLine"></div>
+        <div class="doubleServiceLine"></div>
         <div class="centerLine"></div>
         <div class="playArea"></div>
     </div>
@@ -467,7 +477,7 @@ function showArrow(angle){
 
     clearArena();
 
-    const arenaRect = arena.getBoundingClientRect();
+    const arenaRect = playArea.getBoundingClientRect();
     const H = arenaRect.height;
     const W = arenaRect.width;
 
@@ -589,7 +599,7 @@ function showArrow(angle){
     shuttle.style.left = sx + "px";
     shuttle.style.top  = sy + "px";
 
-    arena.appendChild(shuttle);
+    playArea.appendChild(shuttle);
 }
     
 /* --------- Режимы --------- */
