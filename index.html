@@ -383,6 +383,7 @@ function showArrow(pos){
 
     clearArena();
 
+    // ---- Стрелка ----
     const el=document.createElement("div");
     el.className = pos.hit ? "arrow-hit" : "arrow";
     el.style.left=pos.x;
@@ -390,36 +391,43 @@ function showArrow(pos){
     el.style.transform=`translate(-50%, -50%) rotate(${pos.angle - 90}deg)`;
     arena.appendChild(el);
 
-    // ---- ДОБАВЛЯЕМ ВОЛАН ----
+    // Получаем реальные размеры стрелки
+    const rect = el.getBoundingClientRect();
+    const arrowLength = rect.width;
+
+    // ---- Волан ----
     const shuttle=document.createElement("div");
     shuttle.className="shuttle";
 
     shuttle.innerHTML=`
-    <svg viewBox="0 0 60 85" width="100%" height="100%">
+    <svg viewBox="0 0 60 85" width="100%" height="auto">
 
-      <!-- Юбка (шире и короче) -->
-      <polygon points="3,20 57,20 43,55 17,55"
+      <!-- Юбка -->
+      <polygon points="5,20 55,20 42,55 18,55"
                fill="#ffffff"/>
-      <circle cx="12" cy="20" r="18" fill="#ffffff"/>
-      <circle cx="30" cy="20" r="18" fill="#ffffff"/>
-      <circle cx="48" cy="20" r="18" fill="#ffffff"/>
 
-      <!-- Голова -->
-        <circle cx="30" cy="64" r="14" fill="#ffffff"/>
-        <rect x="16" y="62" width="28" height="2" fill="#ff4444"/>
+      <!-- Перья -->
+      <line x1="18" y1="20" x2="22" y2="55" stroke="#dddddd" stroke-width="1"/>
+      <line x1="30" y1="20" x2="30" y2="55" stroke="#dddddd" stroke-width="1"/>
+      <line x1="42" y1="20" x2="38" y2="55" stroke="#dddddd" stroke-width="1"/>
 
       <!-- Ленточка -->
-      <rect x="16" y="55" width="28" height="7" fill="#ff4444"/>
-            
-    </svg>
-    `;    
-    
-    const arrowLength = arena.offsetWidth * 0.18; // длина стрелки
-    const shuttleSize = arrowLength * 0.6;        // размер волана
-    const offset = arrowLength * 1.2;            // вынос от треугольника
+      <rect x="18" y="55" width="24" height="7" fill="#ff4444"/>
 
+      <!-- Голова -->
+      <circle cx="30" cy="64" r="14" fill="#ffffff"/>
+
+    </svg>
+    `;
+
+    // Размер волана = 60% длины стрелки
+    const shuttleSize = arrowLength * 0.6;
     shuttle.style.width = shuttleSize + "px";
-    shuttle.style.height = shuttleSize * 1.4 + "px";
+    shuttle.style.height = "auto";
+
+    // Offset = конец стрелки + небольшой зазор
+    const offset = arrowLength * 0.8;
+
     if(pos.hit){
         shuttle.style.left = pos.x;
         shuttle.style.top = `calc(${pos.y} + ${offset}px)`;
