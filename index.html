@@ -468,9 +468,10 @@ function showArrow(angle){
         sx += (angle === 90 ? shuttleSize : -shuttleSize);
     }
     else{
-        sy += (angle === 45 || angle === 315)
-              ? -shuttleSize
-              : shuttleSize;
+    // угловые — строго вбок от наконечника
+    sx += (angle === 45 || angle === 135)
+          ? shuttleSize
+          : -shuttleSize;
     }
 
     shuttle.style.left = sx + "px";
