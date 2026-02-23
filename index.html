@@ -59,15 +59,18 @@ body{
     top:50%;
     left:50%;
     transform:translate(-50%, -50%);
-    width:90%;
+    width:auto;
+    max-width:85%;
+    padding:16px 28px;
+    border-radius:14px;
+    background:rgba(0,0,0,0.55);
+    border:1px solid rgba(255,255,255,0.15);
     text-align:center;
-    font-size:8vw;
     color:#ffffff;
-    text-shadow:
-        0 0 8px rgba(0,0,0,0.8),
-        0 0 16px rgba(0,0,0,0.6);
+    font-size:min(8vw,36px);
+    letter-spacing:0.5px;
     pointer-events:none;
-    z-index:10;
+    z-index:20;
 }
     
 /* ===== Арена ===== */
@@ -85,8 +88,14 @@ body{
     left:50%;
     top:50%;
     transform:translate(-50%, -50%);
-    background:#0f6a3c;
-    box-shadow:0 0 40px rgba(0,0,0,0.5);
+    background:
+        radial-gradient(circle at 50% 40%,
+            #158f55 0%,
+            #0f6a3c 60%,
+            #0c5a33 100%);
+    box-shadow:
+        0 0 60px rgba(0,0,0,0.6),
+        inset 0 0 60px rgba(0,0,0,0.35);
     z-index:1;
 }
     
@@ -160,46 +169,65 @@ body{
 
 .arrow{
     position:absolute;
-    width:min(13.5vmin,100px);
-    height:min(1.6vmin,12px);
+    width:min(14vmin,110px);
+    height:min(2.2vmin,16px);
     border-radius:999px;
-    transform-origin: right center;   /* вращаем вокруг наконечника */
-    background:#ff7700;
-    box-shadow:0 0 15px rgba(255,100,0,0.6);
+    transform-origin:right center;
+    background:linear-gradient(90deg,#ffb347,#ff5e00);
+    box-shadow:
+        0 0 18px rgba(255,120,0,0.7),
+        inset 0 0 6px rgba(255,255,255,0.4);
 }
-
+    
 .arrow-hit{
     position:absolute;
-    width:min(10vmin,70px);
-    height:min(1.6vmin,12px);
+    width:min(12vmin,90px);
+    height:min(2.2vmin,16px);
     border-radius:999px;
-    transform-origin: right center;   /* вращаем вокруг наконечника */
-    background:#ff4444;
-    box-shadow:0 0 15px rgba(255,0,0,0.6);
+    transform-origin:right center;
+    background:linear-gradient(90deg,#ff6a6a,#ff0000);
+    box-shadow:
+        0 0 22px rgba(255,0,0,0.75),
+        inset 0 0 6px rgba(255,255,255,0.35);
 }
     
 .arrow::after{
     content:'';
     position:absolute;
-    right:-14px;
+    right:-18px;
     top:50%;
     transform:translateY(-50%);
-    border-left:18px solid #ff7700;
-    border-top:10px solid transparent;
-    border-bottom:10px solid transparent;
+    border-left:22px solid #ff6a00;
+    border-top:12px solid transparent;
+    border-bottom:12px solid transparent;
 }
 
 .arrow-hit::after{
     content:'';
     position:absolute;
-    right:-14px;
+    right:-18px;
     top:50%;
     transform:translateY(-50%);
-    border-left:18px solid #ff4444;
-    border-top:10px solid transparent;
-    border-bottom:10px solid transparent;
+    border-left:22px solid #ff4444;
+    border-top:12px solid transparent;
+    border-bottom:12px solid transparent;
+}
+.arrow,
+.arrow-hit{
+    animation: strike 120ms ease-out;
 }
 
+@keyframes strike{
+    from{
+        opacity:0;
+        transform:translate(-100%, -50%) scale(0.85);
+    }
+    to{
+        opacity:1;
+        transform:translate(-100%, -50%) scale(1);
+    }
+}
+    
 /* ===== Волан ===== */
 
 .shuttle{
