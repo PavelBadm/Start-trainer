@@ -234,15 +234,15 @@ details ul{
 <div id="arena" style="display:none"></div>
     
 <div id="controlPanel">
-<div class="control-buttons">
+<div id="modeTitle" class="app-title" style="margin-bottom:10px;"></div>
+    <div class="control-buttons">
     <button id="startBtn">Старт</button>
     <button id="backBtn">Режимы</button>
 </div>
 
-<div id="methodBlock" class="method-card">
-  <div class="method-header">
-    Как выполнять упражнение
-  </div>
+<details id="methodWrapper">
+  <summary class="method-header">Как выполнять упражнение</summary>
+  <div id="methodBlock" class="method-card">
     
   <!-- Фаза 1 -->
   <div class="method-section">
@@ -308,6 +308,7 @@ details ul{
     </details>
   </div>
   </div>
+</details>
 </div>
 
 <script>
@@ -336,13 +337,13 @@ function risingSound(){
     const gain=audioCtx.createGain();
     osc.type="sine";
     osc.frequency.setValueAtTime(250,audioCtx.currentTime);
-    osc.frequency.linearRampToValueAtTime(700,audioCtx.currentTime+0.6);
+    osc.frequency.linearRampToValueAtTime(700,audioCtx.currentTime+0.3);
     osc.connect(gain);
     gain.connect(audioCtx.destination);
     gain.gain.setValueAtTime(0.4,audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.6);
+    gain.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.3);
     osc.start();
-    osc.stop(audioCtx.currentTime+0.6);
+    osc.stop(audioCtx.currentTime+0.3);
 }
 
 function arrowSound(){
@@ -462,10 +463,11 @@ function showArrow(angle){
     let sy = tipY;
 
     if(angle === 180){
-        sy += shuttleSize;
+    sy += shuttleSize * 1.4;   // было 1.0
     }
     else if(angle === 90 || angle === 270){
         sx += (angle === 90 ? shuttleSize : -shuttleSize);
+        sy += shuttleSize * 0.4;   // добавили смещение вниз
     }
     else{
     // угловые — строго вбок от наконечника
@@ -606,7 +608,7 @@ async function startSeries(){
         `;
         risingSound();
 
-        await sleep(600 + randomBetween(50,150));
+        await sleep(300 + randomBetween(40,100));
         
         status.innerHTML="";
 
@@ -627,6 +629,7 @@ async function startSeries(){
 document.querySelectorAll(".menu-btn").forEach(btn=>{
     btn.addEventListener("click",()=>{
        currentMode = btn.dataset.mode;
+       document.getElementById("modeTitle").innerText = btn.innerText;
 
        menu.style.display="none";
        arena.style.display="block";
@@ -645,6 +648,8 @@ backBtn.addEventListener("click", ()=>{
     status.style.display="none";
     controlPanel.style.display="none";
     menu.style.display="flex";
+    document.getElementById("methodWrapper").open = false;
+    document.getElementById("modeTitle").innerText = "";
 });
 </script>
 
