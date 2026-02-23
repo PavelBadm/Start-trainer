@@ -391,10 +391,6 @@ function showArrow(pos){
     el.style.transform=`translate(-50%, -50%) rotate(${pos.angle - 90}deg)`;
     arena.appendChild(el);
 
-    // Получаем реальные размеры стрелки
-    const rect = el.getBoundingClientRect();
-    const arrowLength = rect.width;
-
     // ---- Волан ----
     const shuttle=document.createElement("div");
     shuttle.className="shuttle";
@@ -407,9 +403,9 @@ function showArrow(pos){
                fill="#ffffff"/>
 
       <!-- Перья -->
-      <line x1="18" y1="20" x2="22" y2="55" stroke="#dddddd" stroke-width="1"/>
-      <line x1="30" y1="20" x2="30" y2="55" stroke="#dddddd" stroke-width="1"/>
-      <line x1="42" y1="20" x2="38" y2="55" stroke="#dddddd" stroke-width="1"/>
+      <line x1="18" y1="20" x2="22" y2="55" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+      <line x1="30" y1="20" x2="30" y2="55" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+      <line x1="42" y1="20" x2="38" y2="55" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
       
       <!-- Голова -->
         <circle cx="30" cy="64" r="14" fill="#ffffff"/>
@@ -421,14 +417,17 @@ function showArrow(pos){
     </svg>
     `;
 
-    // Размер волана = 60% длины стрелки
-    const shuttleSize = arrowLength * 0.6;
     shuttle.style.width = shuttleSize + "px";
     shuttle.style.height = "auto";
 
-    // Offset = конец стрелки + небольшой зазор
-    const offset = arrowLength * 0.8;
+    // --- Стабильный размер ---
+    const shuttleSize = arena.offsetWidth * 0.09;
+    shuttle.style.width = shuttleSize + "px";
+    shuttle.style.height = "auto";
 
+    // --- Стабильный отступ ---
+    const offset = arena.offsetWidth * 0.16;
+    
     if(pos.hit){
         shuttle.style.left = pos.x;
         shuttle.style.top = `calc(${pos.y} + ${offset}px)`;
