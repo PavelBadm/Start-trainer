@@ -403,6 +403,16 @@ function clearArena(){
     arena.innerHTML="";
 }
 
+function buildRect(rectWidth, rectHeight){
+    const centerX = W/2;
+    const centerY = H/2;
+
+    left   = centerX - rectWidth/2;
+    right  = centerX + rectWidth/2;
+    top    = centerY - rectHeight/2;
+    bottom = centerY + rectHeight/2;
+}
+
 function showArrow(angle){
 
     if(!angle) return;
@@ -413,23 +423,32 @@ function showArrow(angle){
     const H = arenaRect.height;
     const W = arenaRect.width;
 
-    // Максимальная доля экрана
-    const shuttleSize = W * 0.09;   // тот же расчёт, что ниже
-    const maxHeight = H * 0.8;
+    const shuttleSize = W * 0.09;
 
-    // Оставляем запас под волан
-    const sidePadding = shuttleSize * 1.2;
-    const maxWidth  = W - sidePadding * 2;
-    
-    // Базовое соотношение 0.7 (портрет)
-    let rectHeight = maxHeight;
-    let rectWidth  = rectHeight * 0.7;
+    // Определяем ориентацию
+    const isPortrait = H > W;
 
-    // Если ширина выходит за пределы — ограничиваем
-    if(rectWidth > maxWidth){
-        rectWidth = maxWidth;
-        rectHeight = rectWidth / 0.7;
+    // --- ПОРТРЕТ ---
+    if(isPortrait){
+
+        // Жёстко ограничиваем ширину
+        const rectWidth = Math.min(W * 0.6, 380);  
+
+        // Высота зависит от экрана
+        const rectHeight = Math.min(H * 0.85, rectWidth * 2);
+
+        buildRect(rectWidth, rectHeight);
+
     }
+    // --- ПЕЙЗАЖ ---
+    else{
+
+        const rectHeight = Math.min(H * 0.8, 600);
+        const rectWidth  = rectHeight * 0.7;
+
+        buildRect(rectWidth, rectHeight);
+    }
+    
         const centerX = W/2;
         const centerY = H/2;
 
