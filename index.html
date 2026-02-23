@@ -212,21 +212,6 @@ body{
     border-top:12px solid transparent;
     border-bottom:12px solid transparent;
 }
-.arrow,
-.arrow-hit{
-    animation: strike 120ms ease-out;
-}
-
-@keyframes strike{
-    from{
-        opacity:0;
-        transform:translate(-100%, -50%) scale(0.85);
-    }
-    to{
-        opacity:1;
-        transform:translate(-100%, -50%) scale(1);
-    }
-}
     
 /* ===== Волан ===== */
 
@@ -790,7 +775,8 @@ async function startSeries(){
         await sleep(300 + randomBetween(40,100));
         
         status.innerHTML="";
-
+        status.style.display="none";
+        
         const angle = round[i];
 
         showArrow(angle);
