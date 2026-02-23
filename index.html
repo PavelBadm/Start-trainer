@@ -414,9 +414,13 @@ function showArrow(angle){
     const W = arenaRect.width;
 
     // Максимальная доля экрана
-    const maxHeight = H * 0.8;        // не более 80% высоты
-    const maxWidth  = W * 0.9;        // не более 90% ширины
+    const shuttleSize = W * 0.09;   // тот же расчёт, что ниже
+    const maxHeight = H * 0.8;
 
+    // Оставляем запас под волан
+    const sidePadding = shuttleSize * 1.2;
+    const maxWidth  = W - sidePadding * 2;
+    
     // Базовое соотношение 0.7 (портрет)
     let rectHeight = maxHeight;
     let rectWidth  = rectHeight * 0.7;
@@ -505,7 +509,6 @@ function showArrow(angle){
     </svg>
     `;
 
-    const shuttleSize = W * 0.09;
     shuttle.style.width = shuttleSize + "px";
 
     let sx = tipX;
