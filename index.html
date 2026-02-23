@@ -83,7 +83,7 @@ body{
     width:min(13.5vmin,100px);
     height:min(1.6vmin,12px);
     border-radius:999px;
-    transform-origin:center center;
+    transform-origin: right center;   /* вращаем вокруг наконечника */
     background:#ff7700;
     box-shadow:0 0 15px rgba(255,100,0,0.6);
 }
@@ -93,7 +93,7 @@ body{
     width:min(10vmin,70px);
     height:min(1.6vmin,12px);
     border-radius:999px;
-    transform-origin:center center;
+    transform-origin: right center;   /* вращаем вокруг наконечника */
     background:#ff4444;
     box-shadow:0 0 15px rgba(255,0,0,0.6);
 }
@@ -419,13 +419,9 @@ function showArrow(angle){
     const arrowRect = el.getBoundingClientRect();
     const arrowLength = arrowRect.width;
 
-    // база стрелки = от наконечника назад на длину стрелки
-    const baseX = tipX - dirX * arrowLength;
-    const baseY = tipY - dirY * arrowLength;
-
-    el.style.left = baseX + "px";
-    el.style.top  = baseY + "px";
-    el.style.transform = `translate(0, -50%) rotate(${angle - 90}deg)`;
+    el.style.left = tipX + "px";
+    el.style.top  = tipY + "px";
+    el.style.transform = `translate(-100%, -50%) rotate(${angle - 90}deg)`;
 
     // ---- Волан ----
     const shuttle=document.createElement("div");
@@ -477,7 +473,7 @@ function showArrow(angle){
 
     shuttle.style.left = sx + "px";
     shuttle.style.top  = sy + "px";
-
+    
     arena.appendChild(shuttle);
 }
     
