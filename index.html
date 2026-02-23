@@ -77,8 +77,10 @@ body{
 #arena{
     position:fixed;
     top:0;
-    left:0;
+    left:50%;
+    transform:translateX(-50%);
     width:100%;
+    max-width:600px;
     height:100dvh;
 }
     
@@ -420,9 +422,10 @@ function arrowSound(){
 }
     
 function clearArena(){
-    arena.innerHTML="";
+    const arrows = arena.querySelectorAll(".arrow, .arrow-hit, .shuttle");
+    arrows.forEach(el => el.remove());
 }
-
+    
 function showArrow(angle){
 
     if(!angle) return;
