@@ -614,6 +614,10 @@ async function startSeries(){
     if(running || !currentMode) return;
     running=true;
 
+    arena.style.display="block";
+    status.style.display="block";
+    controlPanel.style.display="none";
+
     initAudio();
     await audioCtx.resume();
 
@@ -652,6 +656,9 @@ async function startSeries(){
     clearArena();
     status.innerHTML="";
     running=false;
+    
+    arena.style.display="none";
+    status.style.display="none";
     controlPanel.style.display="flex";
 }
 
@@ -663,8 +670,8 @@ document.querySelectorAll(".menu-btn").forEach(btn=>{
        document.getElementById("modeTitle").innerText = btn.innerText;
 
        menu.style.display="none";
-       arena.style.display="block";
-       status.style.display="block";
+       arena.style.display="none";
+       status.style.display="none";
        controlPanel.style.display="flex";
     });
 });
