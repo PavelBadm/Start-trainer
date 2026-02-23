@@ -413,19 +413,28 @@ function showArrow(angle){
     const H = arenaRect.height;
     const W = arenaRect.width;
 
-    const margin = H * 0.05;
-    const rectHeight = H - margin*2;
-    const rectWidth  = rectHeight * 0.7;
+    // Максимальная доля экрана
+    const maxHeight = H * 0.8;        // не более 80% высоты
+    const maxWidth  = W * 0.9;        // не более 90% ширины
 
-    const centerX = W/2;
-    const centerY = H/2;
+    // Базовое соотношение 0.7 (портрет)
+    let rectHeight = maxHeight;
+    let rectWidth  = rectHeight * 0.7;
 
-    const left   = centerX - rectWidth/2;
-    const right  = centerX + rectWidth/2;
-    const top    = centerY - rectHeight/2;
-    const bottom = centerY + rectHeight/2;
+    // Если ширина выходит за пределы — ограничиваем
+    if(rectWidth > maxWidth){
+        rectWidth = maxWidth;
+        rectHeight = rectWidth / 0.7;
+    }
+        const centerX = W/2;
+        const centerY = H/2;
 
-    let tipX, tipY;
+        const left   = centerX - rectWidth/2;
+        const right  = centerX + rectWidth/2;
+        const top    = centerY - rectHeight/2;
+        const bottom = centerY + rectHeight/2;
+
+        let tipX, tipY;
 
     // ---- боковые ----
     if(angle === 90){
