@@ -64,6 +64,7 @@ body{
     font-size:8vw;
     color:#ffaa00;
     pointer-events:none;
+    z-index:10;
 }
     
 /* ===== Арена ===== */
@@ -83,8 +84,9 @@ body{
     transform:translate(-50%, -50%);
     background:#0f6a3c;
     box-shadow:0 0 40px rgba(0,0,0,0.5);
+    z-index:1;
 }
-
+    
 /* Портрет — масштаб от ширины */
 @media (orientation: portrait){
     .court{
@@ -105,9 +107,12 @@ body{
 
 .playArea{
     position:absolute;
-    inset:8%;
+    left:8%;
+    right:8%;
+    top:0;
+    bottom:0;
 }
-
+    
 /* ===== БЕЛАЯ РАЗМЕТКА ===== */
 
 .court::before{
