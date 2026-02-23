@@ -401,7 +401,7 @@ function showArrow(pos){
 
     shuttle.innerHTML=`
     <svg viewBox="0 0 60 85" width="100%" height="auto">
-
+      
       <!-- Юбка -->
       <polygon points="5,20 55,20 42,55 18,55"
                fill="#ffffff"/>
@@ -410,12 +410,13 @@ function showArrow(pos){
       <line x1="18" y1="20" x2="22" y2="55" stroke="#dddddd" stroke-width="1"/>
       <line x1="30" y1="20" x2="30" y2="55" stroke="#dddddd" stroke-width="1"/>
       <line x1="42" y1="20" x2="38" y2="55" stroke="#dddddd" stroke-width="1"/>
+      
+      <!-- Голова -->
+        <circle cx="30" cy="64" r="14" fill="#ffffff"/>
+        <rect x="16" y="62" width="28" height="2" fill="#ff4444"/>
 
       <!-- Ленточка -->
-      <rect x="18" y="55" width="24" height="7" fill="#ff4444"/>
-
-      <!-- Голова -->
-      <circle cx="30" cy="64" r="14" fill="#ffffff"/>
+      <rect x="16" y="55" width="28" height="7" fill="#ff4444"/>
 
     </svg>
     `;
