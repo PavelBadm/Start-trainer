@@ -555,9 +555,13 @@ function showArrow(angle){
     el.style.left = tipX + "px";
     el.style.top  = tipY + "px";
 
-    el.style.transform =
-        `translate(-100%, -50%) rotate(${angle - 90}deg)`;
+    const dx = centerX - tipX;
+    const dy = centerY - tipY;
+    const realAngle = Math.atan2(dy, dx) * 180 / Math.PI;
 
+    el.style.transform =
+        `translate(-100%, -50%) rotate(${realAngle}deg)`;
+    
     // -------------------------
     // Ниже оставляем ТВОЙ блок волана БЕЗ ИЗМЕНЕНИЙ
     // -------------------------
