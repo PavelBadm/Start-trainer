@@ -445,23 +445,22 @@ const shuttleSize = arena.offsetWidth * 0.09;
     else if(pos.angle===225){
         dx = -shuttleSize * 0.8;
     }
-    else if(pos.angle===45){
-        dx = shuttleSize * 0.5;   // вправо
-        dy = shuttleSize * 0.9;
+    else if(pos.angle===45){        // ЛПП
+        dx = 0;
+        dy = shuttleSize * 0.8;     // вниз под ось
     }
-    else if(pos.angle===315){
-        dx = -shuttleSize * 0.5;  // влево
-        dy = shuttleSize * 0.9;
+    else if(pos.angle===315){       // ППП
+        dx = 0;
+        dy = shuttleSize * 0.8;
     }
     else if(pos.angle===90){   // ППУ
-        dx = shuttleSize * 1.1;   // сильно вправо
-        dy = -shuttleSize * 0.2;  // немного вверх (к уровню наконечника)
+        dx = shuttleSize * 0.8;
+        dy = 0;
     }
     else if(pos.angle===270){  // ЛПУ
-        dx = -shuttleSize * 1.1;  // сильно влево
-        dy = -shuttleSize * 0.2;
+        dx = -shuttleSize * 0.8;
+        dy = 0;
     }
-
     shuttle.style.left = tipX + dx + "px";
     shuttle.style.top  = tipY + dy + "px";
 
