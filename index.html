@@ -149,18 +149,20 @@ button{
 #controlPanel{
     display:none;
     flex-direction:column;
-    gap:20px;
     align-items:center;
+    gap:20px;
     margin-top:20px;
+    justify-content:flex-start;   /* важно */
 }
 
-.control-buttons{
+#topControls{
+    width:100%;
+    max-width:600px;
     display:flex;
     flex-direction:column;
-    gap:16px;
     align-items:center;
 }
-
+    
 /* ===== Методика ===== */
 
 .method-header{
@@ -183,10 +185,8 @@ button{
     font-size:min(3.8vw,16px);
     line-height:1.4;
     text-align:left;
-    max-height:50vh;
-    overflow:auto;
 }
-
+    
 .method-section{
     margin-bottom:16px;
 }
@@ -212,7 +212,28 @@ details ul{
     color:#ffaa55;
     font-weight:600;
 }
+/* ===== Анимация методики ===== */
 
+#methodWrapper > #methodBlock{
+    max-height:0;
+    overflow:hidden;
+    opacity:0;
+    transition:
+        max-height 0.35s ease,
+        opacity 0.25s ease;
+}
+
+#methodWrapper[open] > #methodBlock{
+    max-height:50vh;   /* вместо 1000px */
+    opacity:1;
+    overflow:auto;
+}
+
+#methodWrapper summary{
+    cursor:pointer;
+    user-select:none;
+}
+    
 </style>
 
 </head>
@@ -234,16 +255,19 @@ details ul{
 <div id="arena" style="display:none"></div>
     
 <div id="controlPanel">
-<div id="modeTitle" class="app-title" style="margin-bottom:10px;"></div>
-    <div class="control-buttons">
-    <button id="startBtn">Старт</button>
-    <button id="backBtn">Режимы</button>
-</div>
 
-<details id="methodWrapper">
-  <summary class="method-header">Как выполнять упражнение</summary>
-  <div id="methodBlock" class="method-card">
-    
+  <div id="topControls">
+    <div id="modeTitle" class="app-title" style="margin-bottom:10px;"></div>
+
+    <div class="control-buttons">
+      <button id="startBtn">Старт</button>
+      <button id="backBtn">Режимы</button>
+    </div>
+  </div>
+
+  <details id="methodWrapper">
+    <summary class="method-header">Как выполнять упражнение</summary>
+    <div id="methodBlock" class="method-card">
   <!-- Фаза 1 -->
   <div class="method-section">
     <div class="method-title">🔊 Нарастающий звук — это замах соперника</div>
