@@ -560,13 +560,23 @@ function showArrow(angle){
     el.style.left = tipX + "px";
     el.style.top  = tipY + "px";
 
-    const dx = centerX - tipX;
-    const dy = centerY - tipY;
+    let rotation;
 
-    const realAngle = Math.atan2(dy, dx) * 180 / Math.PI;
+    if(angle === 90){
+        rotation = 0;      // строго вправо
+    }
+    else if(angle === 270){
+        rotation = 180;    // строго влево
+    }
+    else{
+        const dx = centerX - tipX;
+        const dy = centerY - tipY;
+        const realAngle = Math.atan2(dy, dx) * 180 / Math.PI;
+        rotation = realAngle + 180;
+    }
 
     el.style.transform =
-        `translate(-100%, -50%) rotate(${realAngle + 180}deg)`;
+        `translate(-100%, -50%) rotate(${rotation}deg)`;    
     
     // -------------------------
     // Ниже оставляем ТВОЙ блок волана БЕЗ ИЗМЕНЕНИЙ
@@ -726,7 +736,7 @@ async function startSeries(){
 
     controlPanel.style.display="none";
     
-    const steps=Math.floor(randomBetween(10,15));
+    const steps=Math.floor(randomBetween(15,20));
     const round=generateRound(currentMode,steps);
 
     for(let i=0;i<round.length;i++){
@@ -736,6 +746,8 @@ async function startSeries(){
         status.style.display="none";
         
         await sleep(randomBetween(400,1200));
+
+        status.style.display="block";
 
         status.innerHTML = `
           <div style="text-align:center;">
