@@ -518,12 +518,12 @@ function showArrow(angle){
     // ---- боковые ----
     if(angle === 90){
         tipX = right;
-        tipY = centerY;
+        tipY = centerY + shuttleSize * 0.6;
     }
     else if(angle === 270){
         tipX = left;
-        tipY = centerY;
-    }
+        tipY = centerY + shuttleSize * 0.6;
+}
 
     // ---- угловые ----
     else if(angle === 45){
@@ -550,9 +550,11 @@ function showArrow(angle){
     }
     
     const el = document.createElement("div");
-    const isHit = angle === 180;
-    el.className = isHit ? "arrow-hit" : "arrow";
+    const isSmash = (angle === 90 || angle === 270);
+    const isHit   = angle === 180;
 
+    el.className = (isSmash || isHit) ? "arrow-hit" : "arrow";
+    
     playArea.appendChild(el);
     
     el.style.left = tipX + "px";
@@ -599,7 +601,7 @@ function showArrow(angle){
     }
     else if(angle === 90 || angle === 270){
         sx += (angle === 90 ? shuttleSize : -shuttleSize);
-        sy += shuttleSize * 0.4;   // добавили смещение вниз
+        sy += shuttleSize * 0.8;   // добавили смещение вниз
     }
     else{
     // угловые — строго вбок от наконечника
@@ -731,7 +733,8 @@ async function startSeries(){
 
         clearArena();
         status.innerHTML="";
-
+        status.style.display="none";
+        
         await sleep(randomBetween(400,1200));
 
         status.innerHTML = `
@@ -748,10 +751,16 @@ async function startSeries(){
         
         status.innerHTML="";
 
-        showArrow(round[i]);   // теперь передаём просто угол
+        const angle = round[i];
+
+        showArrow(angle);
         arrowSound();
 
-        await sleep(800 + randomBetween(500,800));
+        if(angle === 90 || angle === 270 || angle === 180){
+            await sleep(400 + randomBetween(250,400));
+        }else{
+            await sleep(800 + randomBetween(500,800));
+        }
     }
 
     clearArena();
