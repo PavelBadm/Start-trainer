@@ -322,22 +322,6 @@ const menu=document.getElementById("menu");
 const status=document.getElementById("status");
 const controlPanel = document.getElementById("controlPanel");
 
-/* ---- Позиции (визуально те же, углы часовые) ---- */
-
-    const positions = [
-    {angle:45,  x:"70%", y:"18%"},
-    {angle:90,  x:"80%", y:"50%"},
-    {angle:135, x:"70%", y:"82%"},
-    {angle:225, x:"30%", y:"82%"},
-    {angle:270, x:"20%", y:"50%"},
-    {angle:315, x:"30%", y:"18%"},
-    {angle:180, x:"50%", y:"50%", hit:true}
-];
-
-function getPos(angle){
-    return positions.find(p=>p.angle===angle);
-}
-
 function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
 function randomBetween(min,max){ return min+Math.random()*(max-min); }
 
@@ -377,32 +361,71 @@ function arrowSound(){
 function clearArena(){
     arena.innerHTML="";
 }
-    
-function showArrow(pos){
-    if(!pos) return;
+
+function showArrow(angle){
+    if(!angle) return;
 
     clearArena();
 
-    // ---- Стрелка ----
+    const arenaRect = arena.getBoundingClientRect();
+    const arenaW = arenaRect.width;
+    const arenaH = arenaRect.height;
+
+    // ---- Центр арены ----
+    const centerX = arenaW / 2;
+    const centerY = arenaH / 2;
+
+    // ---- Виртуальный прямоугольник ----
+    const margin = arenaH * 0.03;            // 3% отступ
+    const rectHeight = arenaH - margin*2;    // высота
+    const rectWidth  = rectHeight * 0.85;    // можно менять 0.8 / 0.9
+
+    const left   = centerX - rectWidth/2;
+    const right  = centerX + rectWidth/2;
+    const top    = centerY - rectHeight/2;
+    const bottom = centerY + rectHeight/2;
+
+    // ---- Направление ----
+    const angleRad = (angle - 90) * Math.PI/180;
+    const dirX = Math.cos(angleRad);
+    const dirY = Math.sin(angleRad);
+
+    // ---- Пересечение луча с границей прямоугольника ----
+    let tVals = [];
+
+    if(dirX !== 0){
+        tVals.push((left - centerX) / dirX);
+        tVals.push((right - centerX) / dirX);
+    }
+    if(dirY !== 0){
+        tVals.push((top - centerY) / dirY);
+        tVals.push((bottom - centerY) / dirY);
+    }
+
+    // выбираем минимальное положительное t
+    const t = Math.min(...tVals.filter(v => v > 0));
+
+    const tipX = centerX + dirX * t;
+    const tipY = centerY + dirY * t;
+
+    // ---- Создаём стрелку ----
     const el=document.createElement("div");
-    el.className = pos.hit ? "arrow-hit" : "arrow";
-    el.style.left=pos.x;
-    el.style.top=pos.y;
-    el.style.transform=`translate(-50%, -50%) rotate(${pos.angle - 90}deg)`;
+
+    const isHit = angle === 180;
+    el.className = isHit ? "arrow-hit" : "arrow";
+
     arena.appendChild(el);
 
-    // --- вычисляем наконечник ---
     const arrowRect = el.getBoundingClientRect();
-    const arenaRect = arena.getBoundingClientRect();
+    const arrowLength = arrowRect.width;
 
-    const centerX = arrowRect.left + arrowRect.width/2 - arenaRect.left;
-    const centerY = arrowRect.top + arrowRect.height/2 - arenaRect.top;
+    // база стрелки = от наконечника назад на длину стрелки
+    const baseX = tipX - dirX * arrowLength;
+    const baseY = tipY - dirY * arrowLength;
 
-    const angleRad = (pos.angle - 90) * Math.PI / 180;
-    const tipLength = arrowRect.width/2 + 9;
-
-    const tipX = centerX + Math.cos(angleRad) * tipLength;
-    const tipY = centerY + Math.sin(angleRad) * tipLength;
+    el.style.left = baseX + "px";
+    el.style.top  = baseY + "px";
+    el.style.transform = `translate(0, -50%) rotate(${angle - 90}deg)`;
 
     // ---- Волан ----
     const shuttle=document.createElement("div");
@@ -429,45 +452,32 @@ function showArrow(pos){
 
     </svg>
     `;
-
-const shuttleSize = arena.offsetWidth * 0.09;
+    
+    const shuttleSize = arenaW * 0.09;
     shuttle.style.width = shuttleSize + "px";
 
-    let dx = 0;
-    let dy = 0;
+    let sx = tipX;
+    let sy = tipY;
 
-    // Нижние
-    if(pos.angle===135){
-        dx = shuttleSize;
+    // ---- Размещение волана ----
+    if(angle === 180){
+        sy += shuttleSize;
     }
-    else if(pos.angle===225){
-        dx = -shuttleSize;
+    else if(angle === 90 || angle === 270){
+        // боковые — сбоку
+        sx += dirX * shuttleSize;
     }
-
-    // Верхние
-    else if(pos.angle===90){
-        dx = shuttleSize;
-    }
-    else if(pos.angle===270){
-        dx = -shuttleSize;
-    }
-
-    // Пол-поля
-    else if(pos.angle===45){
-        dy = shuttleSize;
-    }
-    else if(pos.angle===315){
-        dy = shuttleSize;
+    else{
+        // угловые — перпендикулярно направлению
+        const perpX = -dirY;
+        const perpY = dirX;
+        sx += perpX * shuttleSize;
+        sy += perpY * shuttleSize;
     }
 
-    // В тебя
-    else if(pos.hit){
-        dy = shuttleSize;
-    }
+    shuttle.style.left = sx + "px";
+    shuttle.style.top  = sy + "px";
 
-    shuttle.style.left = tipX + dx + "px";
-    shuttle.style.top  = tipY + dy + "px";
-    
     arena.appendChild(shuttle);
 }
     
@@ -601,8 +611,7 @@ async function startSeries(){
         
         status.innerHTML="";
 
-        const pos=getPos(round[i]);
-        showArrow(pos);
+        showArrow(round[i]);   // теперь передаём просто угол
         arrowSound();
 
         await sleep(800 + randomBetween(500,800));
