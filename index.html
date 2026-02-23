@@ -658,6 +658,9 @@ async function startSeries(){
     status.style.display="block";
     controlPanel.style.display="none";
 
+    // даём браузеру 1 кадр, чтобы посчитать размеры
+    await new Promise(r => requestAnimationFrame(r));
+
     initAudio();
     await audioCtx.resume();
 
