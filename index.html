@@ -72,10 +72,17 @@ body{
     position:relative;
     width:100%;
     max-width:600px;
-    height:70vh;
-    max-height:600px;
 }
 
+/* --- ПОРТРЕТ --- */
+@media (orientation: portrait){
+    #arena{
+        height:82vh;     /* можно 80–85vh */
+        max-height:none; /* убираем ограничение */
+    }
+}
+
+/* --- ПЕЙЗАЖ --- */
 @media (orientation: landscape){
     #arena{
         height:min(85vmin,600px);
