@@ -35,29 +35,23 @@ body{
     
 /* ===== Главное меню ===== */
 
-#menu{
+#menu,
+#topControls{
     display:flex;
     flex-direction:column;
-    gap:2vh;
-    justify-content:center;
     align-items:center;
+    justify-content:flex-start; /* одинаково */
+    gap:4vh;
     margin-top:60px;
 }
 
 .app-title{
     font-size:min(8vw,32px);
     font-weight:600;
-    margin-bottom:4vh;
     letter-spacing:1px;
     text-shadow:0 0 20px rgba(255,120,0,0.4);
 }
-
-.menu-btn{
-    padding:14px 28px;
-    font-size:min(5vw,20px);
-    border-radius:999px;
-}
-    
+            
 /* ===== Статус ===== */
 
 #status{
@@ -105,10 +99,6 @@ body{
     left:10px;
     font-size:min(3.5vw,14px);
     opacity:0.6;
-}
-
-#modeTitle{
-    margin-bottom:3vh;
 }
 
 /* ===== Стрелки ===== */
@@ -289,8 +279,8 @@ details ul{
 <div id="controlPanel">
 
   <div id="topControls">
-    <div id="modeTitle" class="app-title" style="margin-bottom:10px;"></div>
-
+    <div id="modeTitle" class="app-title"></div>
+      
     <div class="control-buttons">
       <button id="startBtn">Старт</button>
       <button id="backBtn">Режимы</button>
