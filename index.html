@@ -69,38 +69,76 @@ body{
 /* ===== Арена ===== */
 
 #arena{
-    position:fixed;
-    top:0;
-    left:50%;
-    transform:translateX(-50%);
+    position:relative;
     width:100%;
-    max-width:600px;
     height:100dvh;
 }
     
-/* --- ПОРТРЕТ --- */
-@media (orientation: portrait){
-    #arena{
-        height:100dvh;
-    }
-}
-    
-/* --- ПЕЙЗАЖ --- */
-@media (orientation: landscape){
-    #arena{
-        height:min(85vmin,600px);
-        width:min(85vmin,600px);
-    }
-}
-    
-.mode-label{
+/* ===== COURT ===== */
+
+.court{
     position:absolute;
-    top:10px;
-    left:10px;
-    font-size:min(3.5vw,14px);
-    opacity:0.6;
+    left:50%;
+    top:50%;
+    transform:translate(-50%, -50%);
+    background:#0f6a3c;
+    box-shadow:0 0 40px rgba(0,0,0,0.5);
 }
 
+/* Портрет — масштаб от ширины */
+@media (orientation: portrait){
+    .court{
+        width:min(95vw,600px);
+        height:calc(min(95vw,600px) * 1.29);
+    }
+}
+
+/* Landscape — масштаб от высоты */
+@media (orientation: landscape){
+    .court{
+        height:min(90vh,600px);
+        width:calc(min(90vh,600px) / 1.29);
+    }
+}
+
+/* ===== PLAY AREA ===== */
+
+.playArea{
+    position:absolute;
+    inset:8%;
+}
+
+/* ===== БЕЛАЯ РАЗМЕТКА ===== */
+
+.court::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border:4px solid white;
+    box-sizing:border-box;
+}
+
+/* короткая линия подачи */
+.serviceLine{
+    position:absolute;
+    left:0;
+    right:0;
+    top:29.5%;
+    height:3px;
+    background:white;
+}
+
+/* центральная линия */
+.centerLine{
+    position:absolute;
+    left:50%;
+    top:0;
+    bottom:29.5%;
+    width:3px;
+    background:white;
+    transform:translateX(-50%);
+}
+    
 /* ===== Стрелки ===== */
 
 .arrow{
@@ -272,9 +310,15 @@ details ul{
     <button class="menu-btn" data-mode="back">Задняя зона</button>
 </div>
 
-<div id="arena" style="display:none">
+<div id="arena" style="display:none">    
     <div id="status" style="display:none"></div>
+    <div class="court">
+        <div class="serviceLine"></div>
+        <div class="centerLine"></div>
+        <div class="playArea"></div>
+    </div>
 </div>
+    
     
 <div id="controlPanel">
 
@@ -363,6 +407,7 @@ let audioCtx=null;
 let currentMode=null;
 
 const arena=document.getElementById("arena");
+const playArea = document.querySelector(".playArea");
 const startBtn=document.getElementById("startBtn");
 const backBtn = document.getElementById("backBtn");
 const menu=document.getElementById("menu");
@@ -491,8 +536,8 @@ function showArrow(angle){
     const isHit = angle === 180;
     el.className = isHit ? "arrow-hit" : "arrow";
 
-    arena.appendChild(el);
-
+    playArea.appendChild(el);
+    
     el.style.left = tipX + "px";
     el.style.top  = tipY + "px";
 
