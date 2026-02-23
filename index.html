@@ -425,51 +425,64 @@ function showArrow(pos){
     // --- Стабильный отступ ---
     const offset = arena.offsetWidth * 0.16;
     
-    if(pos.hit){
-        shuttle.style.left = pos.x;
-        shuttle.style.top = `calc(${pos.y} + ${offset}px)`;
-    } else {
-        // --- Логическое размещение волана ---
-
-        const offsetMain = arena.offsetWidth * 0.16;
-        const offsetSide = shuttleSize * 0.9;
-
-        let dx = 0;
-        let dy = 0;
+    let dx = 0;
+    let dy = 0;
 
         // В тебя
         if(pos.hit){
-            dy = offsetMain;
+            dx = 0;
+            dy = shuttleSize * 1.0;
         }
 
-        // Верхние диагонали
-        else if(pos.angle===45 || pos.angle===315){
-            const angleRad=(pos.angle-90)*Math.PI/180;
-            dx = Math.cos(angleRad)*offsetMain;
-            dy = Math.sin(angleRad)*offsetMain;
-        }
-
-        // Боковые
-        else if(pos.angle===90){
-            dx = offsetMain;
-        }
-        else if(pos.angle===270){
-            dx = -offsetMain;
-        }
-
-        // Нижние диагонали
+        // Нижние диагонали (ПЗУ 135 / ЛЗУ 225)
         else if(pos.angle===135){
-            dx = offsetMain;   // справа от треугольника
+            dx = shuttleSize * 0.8;   // справа
+            dy = 0;                   // строго на уровне наконечника
         }
         else if(pos.angle===225){
-            dx = -offsetMain;  // слева от треугольника
+            dx = -shuttleSize * 0.8;  // слева
+            dy = 0;
         }
 
-        shuttle.style.left=`calc(${pos.x} + ${dx}px)`;
-        shuttle.style.top=`calc(${pos.y} + ${dy}px)`;
-            }
+        // Верхние диагонали (45 / 315)
+        else if(pos.angle===45){
+            dx = -shuttleSize * 0.5;  // левее
+            dy = shuttleSize * 0.9;   // ниже наконечника
+        }
+        else if(pos.angle===315){
+            dx = shuttleSize * 0.5;   // правее
+            dy = shuttleSize * 0.9;
+        }
+
+        // Боковые (90 / 270)
+        else if(pos.angle===90){
+            dx = shuttleSize * 0.6;   // правее
+            dy = shuttleSize * 0.9;   // ниже треугольника
+        }
+        else if(pos.angle===270){
+            dx = -shuttleSize * 0.6;  // левее
+            dy = shuttleSize * 0.9;
+        }
+
+        shuttle.style.left = tipX + dx + "px";
+        shuttle.style.top  = tipY + dy + "px";
+        }
 
     arena.appendChild(shuttle);
+
+    const arrowRect = el.getBoundingClientRect();
+    const arenaRect = arena.getBoundingClientRect();
+
+    const centerX = arrowRect.left + arrowRect.width/2 - arenaRect.left;
+    const centerY = arrowRect.top + arrowRect.height/2 - arenaRect.top;
+
+    const angleRad = (pos.angle - 90) * Math.PI / 180;
+
+    // длина стрелки + треугольник
+    const tipLength = arrowRect.width/2 + 18;
+
+    const tipX = centerX + Math.cos(angleRad) * tipLength;
+    const tipY = centerY + Math.sin(angleRad) * tipLength;    
 }
     
 /* --------- Режимы --------- */
