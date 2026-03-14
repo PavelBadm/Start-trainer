@@ -508,6 +508,26 @@ beep(850, now + 0.08, 0.04);
 beep(1200, now + 0.16, 0.065);
 
 }
+
+function hitSound(){
+
+    const now = audioCtx.currentTime;
+
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(480, now);
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    gain.gain.setValueAtTime(0.4, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+
+    osc.start(now);
+    osc.stop(now + 0.07);
+}
     
 function clearArena(){
     const arrows = arena.querySelectorAll(".arrow, .arrow-hit, .shuttle");
@@ -802,8 +822,12 @@ async function startSeries(){
         const angle = round[i];
 
         showArrow(angle);
-        arrowSound();
 
+        if(angle === 180){
+            hitSound();
+        }else{
+            arrowSound();
+        }
         if(angle === 90 || angle === 270 || angle === 180){
             await sleep(400 + randomBetween(250,400));
         }else{
