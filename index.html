@@ -483,22 +483,34 @@ function risingSound(){
 }
 
 function arrowSound(){
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
 
     const now = audioCtx.currentTime;
 
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(850, now);
+    function beep(freq, start, dur, gainLevel=0.35){
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
 
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
+        osc.type = "triangle";   // более "жёсткий" звук
+        osc.frequency.setValueAtTime(freq, start);
 
-    gain.gain.setValueAtTime(0.4, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
 
-    osc.start(now);
-    osc.stop(now + 0.12);
+        gain.gain.setValueAtTime(gainLevel, start);
+        gain.gain.exponentialRampToValueAtTime(0.001, start + dur);
+
+        osc.start(start);
+        osc.stop(start + dur);
+    }
+
+    // ты
+    beep(520, now, 0.03, 0.25);
+
+    // гы (старый сигнал)
+    beep(850, now + 0.045, 0.035, 0.35);
+
+    // дым (акцент)
+    beep(1200, now + 0.09, 0.06, 0.5);
 }
     
 function clearArena(){
