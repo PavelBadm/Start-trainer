@@ -871,7 +871,11 @@ backBtn.addEventListener("click", ()=>{
     document.getElementById("methodWrapper").open = false;
     document.getElementById("modeTitle").innerText = "";
 });
-</script>
 
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
+</script>
+    
 </body>
 </html>
